@@ -1,0 +1,553 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>elmir mirzayev</title>
+<meta name="description" content="robotics & automation engineer in germany. plcs, robots, backend.">
+<meta name="theme-color" content="#09090b">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="elmir mirzayev">
+<meta property="og:description" content="robotics & automation engineer in germany.">
+<meta property="og:url" content="https://sa1ntsinner.github.io/">
+<meta property="og:image" content="https://sa1ntsinner.github.io/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#09090b;
+  --panel:#0e0e11;
+  --line:#1d1d21;
+  --fg:#e6e3dc;
+  --fg-2:#a9a59c;
+  --dim:#6d6a63;
+  --faint:#3a3935;
+  --laser:#ff5a4a;
+  --f:"JetBrains Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg-2);font:400 14px/1.7 var(--f);-webkit-font-smoothing:antialiased;font-variant-ligatures:none;padding-inline:20px}
+::selection{background:var(--fg);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:1px solid var(--fg);outline-offset:3px}
+.wrap{max-width:920px;margin-inline:auto}
+
+header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:22px;border-bottom:1px solid var(--line)}
+.brand{color:var(--fg);font-weight:500}
+.brand span{color:var(--laser)}
+nav{display:flex;gap:22px;font-size:13px}
+nav a{color:var(--dim);transition:color .15s}
+nav a:hover{color:var(--fg)}
+@media (max-width:520px){nav{gap:14px;font-size:12.5px}nav .opt{display:none}}
+
+.hero{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:52px;align-items:center;padding-block:56px 64px}
+@media (max-width:840px){.hero{grid-template-columns:1fr;gap:26px;padding-block:28px 44px}.portrait{max-width:440px}}
+#ascii{display:block;width:100%;height:auto;aspect-ratio:1/1;cursor:crosshair}
+.chips{display:flex;justify-content:center;gap:10px;margin-top:12px;font-size:12px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);padding:3px 10px;color:var(--dim);font-variant-numeric:tabular-nums;background:var(--panel)}
+.chip i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--laser);margin-right:8px;vertical-align:1px}
+.chip button{all:unset;cursor:pointer}
+.chip:has(button):hover{color:var(--fg);border-color:var(--faint)}
+
+.prompt{color:var(--dim);font-size:13px}
+.prompt b{color:var(--laser);font-weight:400}
+h1{margin:6px 0 0;font-weight:500;font-size:28px;line-height:1.25;color:var(--fg);letter-spacing:-.01em}
+h1 span{color:var(--dim);font-weight:300;font-size:18px;white-space:nowrap}
+.role{margin:10px 0 0;color:var(--fg)}
+.role span{color:var(--dim)}
+.bio{margin:14px 0 0;max-width:48ch}
+.quote{margin:18px 0 0;padding-left:14px;border-left:1px solid var(--laser);color:var(--dim);font-size:13px;max-width:48ch}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.tags span{font-size:12px;border:1px solid var(--line);padding:2px 9px;color:var(--fg-2)}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;font-size:13px}
+.links a,.links button{font:inherit;cursor:pointer;background:none;border:1px solid var(--line);padding:6px 12px;color:var(--fg-2);transition:color .15s,border-color .15s}
+.links a:hover,.links button:hover{color:var(--fg);border-color:var(--dim)}
+
+section{padding-block:8px 52px}
+.cmd{color:var(--dim);font-size:13px;margin:0 0 16px}
+.cmd b{color:var(--fg);font-weight:400}
+.cmd::before{content:"$ ";color:var(--laser)}
+
+.man{border-top:1px solid var(--line)}
+.man li{display:grid;grid-template-columns:170px minmax(0,1fr);gap:20px;padding:14px 0;border-bottom:1px solid var(--line)}
+@media (max-width:620px){.man li{grid-template-columns:1fr;gap:4px}}
+.man .k{color:var(--fg)}
+.man .k small{display:block;color:var(--dim);font-size:12px}
+.man p{margin:0}
+ul{list-style:none;margin:0;padding:0}
+
+.side li a{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:16px;padding:10px 0;border-bottom:1px dashed var(--line);color:var(--fg-2);transition:color .15s}
+.side li:first-child a{border-top:1px dashed var(--line)}
+.side .k{color:var(--fg)}
+.side .r{color:var(--faint);font-size:12px;white-space:nowrap;transition:color .15s}
+.side li a:hover{color:var(--fg)}
+.side li a:hover .r{color:var(--fg)}
+@media (max-width:620px){.side li a{grid-template-columns:1fr auto}.side .d{grid-column:1/-1;grid-row:2}}
+.note{margin:12px 0 0;font-size:12px;color:var(--faint)}
+
+.code{border:1px solid var(--line);background:var(--panel);padding:22px 22px 14px;display:grid;gap:22px}
+.totals{display:flex;flex-wrap:wrap;gap:12px 56px}
+.code .k{font-size:12.5px;color:var(--dim)}
+.code .v{font-size:22px;color:var(--fg);font-variant-numeric:tabular-nums;line-height:1.4}
+.live{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--laser);margin-right:8px;vertical-align:1px;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.3}}
+.langs{display:grid;gap:10px}
+.lang{display:grid;grid-template-columns:90px minmax(0,1fr) 44px;gap:16px;align-items:center;font-size:13px}
+.lang .bar{height:3px;background:#1a1a1e;position:relative}
+.lang .bar i{position:absolute;inset:0 auto 0 0;background:var(--fg-2);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.lang:nth-child(1) .bar i{background:var(--fg)}
+.lang:nth-child(3) .bar i{background:var(--dim)}
+.lang .p{text-align:right;color:var(--dim);font-variant-numeric:tabular-nums}
+.who-wrote{display:grid;gap:12px}
+.split{display:flex;height:6px;background:#1a1a1e;overflow:hidden}
+.split .h{background:var(--fg)}
+.split .a{background:repeating-linear-gradient(90deg,var(--laser) 0 2px,transparent 2px 4px)}
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.cols .n{font-size:15px;font-variant-numeric:tabular-nums;display:flex;gap:12px;margin-top:2px}
+.add{color:var(--fg)}
+.del{color:var(--laser)}
+.code-foot{border-top:1px solid var(--line);padding-top:12px;font-size:12px;color:var(--faint);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+.log{border:1px solid var(--line);background:var(--panel);padding:20px}
+.log-wrap{overflow-x:auto}
+.months{display:grid;grid-auto-flow:column;grid-auto-columns:15px;font-size:11px;color:var(--dim);height:20px;width:max-content;white-space:nowrap}
+.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);grid-auto-columns:12px;gap:3px;width:max-content}
+.heat i{background:#141417;display:block}
+.heat i[data-l="1"]{background:#3b3933}
+.heat i[data-l="2"]{background:#6f6b61}
+.heat i[data-l="3"]{background:#b3ada0}
+.heat i[data-l="4"]{background:#f1ece2}
+.log-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--dim)}
+.legend{display:flex;align-items:center;gap:4px}
+.legend i{width:10px;height:10px;display:inline-block}
+
+footer{border-top:1px solid var(--line);padding-block:20px 40px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--dim)}
+footer a:hover{color:var(--fg)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--fg);color:var(--bg);font-size:12px;padding:8px 14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#top">elmir<span>.</span></a>
+    <nav aria-label="Sections"><a href="#work">work</a><a href="#side">side</a><a href="#coding" class="opt">coding</a><a href="https://github.com/sa1ntsinner" target="_blank" rel="noopener">github ↗</a></nav>
+  </header>
+
+  <main id="top">
+    <div class="hero">
+      <div class="portrait">
+        <canvas id="ascii" width="840" height="840" role="img" aria-label="ASCII portrait of Elmir, reconstructed from a lidar scan"></canvas>
+        <div class="chips">
+          <span class="chip"><i></i><time id="clock">--:--</time> germany</span>
+          <span class="chip"><button type="button" id="rescan">rescan</button></span>
+        </div>
+      </div>
+
+      <div>
+        <div class="prompt"><b>~</b> whoami</div>
+        <h1>elmir mirzayev <span>/ sa1ntsinner</span></h1>
+        <p class="role">robotics &amp; automation engineer <span>· germany</span></p>
+        <p class="bio">i program plcs and robots for a living. after hours it is backend, some frontend, and whatever new tech shows up.</p>
+        <p class="quote">sensors lie, clocks drift. this page is the most reliable thing i ship.</p>
+        <div class="tags"><span>python</span><span>c++</span><span>ros</span><span>scl</span><span>tia portal</span><span>typescript</span></div>
+        <div class="links">
+          <a href="https://github.com/sa1ntsinner" target="_blank" rel="noopener">github ↗</a>
+          <a href="https://www.linkedin.com/in/elmir-mirzayev-563a821bb" target="_blank" rel="noopener">linkedin ↗</a>
+          <button type="button" id="mail" data-mail="smile0murr@gmail.com">copy email</button>
+        </div>
+      </div>
+    </div>
+
+    <section id="work">
+      <p class="cmd">man <b>elmir</b></p>
+      <ul class="man">
+        <li><div class="k">automation<small>scl · tia portal</small></div><p>state machines, drives, interlocks and safety on siemens plcs.</p></li>
+        <li><div class="k">robotics<small>ros · python · c++</small></div><p>sensors, localisation, and the link between ros and the plc.</p></li>
+        <li><div class="k">bring-up<small>on site</small></div><p>io checks, tuning and debugging on the real machine.</p></li>
+        <li><div class="k">backend<small>apis · databases</small></div><p>services and the tools around them. frontend when a project needs one.</p></li>
+      </ul>
+    </section>
+
+    <section id="side">
+      <p class="cmd">ls <b>~/side-projects</b></p>
+      <ul class="side">
+        <li><a href="https://github.com/sa1ntsinner/rung" target="_blank" rel="noopener"><span class="k">rung</span><span class="d">tia portal projects as plain text, so plc code can live in git</span><span class="r">ts · ↗</span></a></li>
+        <li><a href="https://github.com/sa1ntsinner/nordlys-tab" target="_blank" rel="noopener"><span class="k">nordlys</span><span class="d">a calm new tab for chrome, no account and no tracking</span><span class="r">js · ↗</span></a></li>
+      </ul>
+    </section>
+
+    <section id="coding">
+      <p class="cmd">wakatime <b>--last-7-days</b></p>
+      <div class="code" id="code" aria-live="polite">
+        <div class="totals">
+          <div><div class="k" id="c-today-k">today</div><div class="v" id="c-today">–</div></div>
+          <div><div class="k">this week</div><div class="v" id="c-week">–</div></div>
+        </div>
+        <div class="langs" id="c-langs">
+          <div class="lang"><span>python</span><span class="bar"><i style="width:0"></i></span><span class="p">–</span></div>
+          <div class="lang"><span>c++</span><span class="bar"><i style="width:0"></i></span><span class="p">–</span></div>
+          <div class="lang"><span>others</span><span class="bar"><i style="width:0"></i></span><span class="p">–</span></div>
+        </div>
+        <div class="who-wrote">
+          <div class="split" id="c-split"><span class="h" style="width:0"></span><span class="a" style="width:0"></span></div>
+          <div class="cols">
+            <div><div class="k" id="c-h-k">human</div><div class="n"><span class="add" id="c-ha">+0</span><span class="del" id="c-hd">−0</span></div></div>
+            <div><div class="k" id="c-a-k">ai-assisted</div><div class="n"><span class="add" id="c-aa">+0</span><span class="del" id="c-ad">−0</span></div></div>
+          </div>
+        </div>
+        <div class="code-foot"><span>↻ rolling 7 days · the goal is more by hand</span><span id="c-upd">via wakatime</span></div>
+      </div>
+    </section>
+
+    <section id="activity">
+      <p class="cmd">cat <b>activity.log</b></p>
+      <div class="log">
+        <div class="log-wrap">
+          <div class="months" id="months"></div>
+          <div class="heat" id="heat" role="img" aria-label="GitHub contributions over the last year"></div>
+        </div>
+        <div class="log-foot"><span id="total">–</span><span class="legend">less <i style="background:#141417"></i><i style="background:#3b3933"></i><i style="background:#6f6b61"></i><i style="background:#b3ada0"></i><i style="background:#f1ece2"></i> more</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><span>© 2026 elmir mirzayev</span><a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io" target="_blank" rel="noopener">source ↗</a></footer>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const still = /still/.test(location.search);
+  const freeze = +((/[?&]t=([\d.]+)/.exec(location.search) || [])[1] || 0);   // ?t=2 renders one scan frame, for screenshots
+  const $ = id => document.getElementById(id);
+
+  /* clock (germany) */
+  const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' });
+  const tick = () => $('clock').textContent = fmt.format(new Date());
+  tick(); setInterval(tick, 15000);
+
+  /* email: shown as text on copy, since mailto links are unreliable */
+  let toastT;
+  const toast = m => { const t = $('toast'); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2200); };
+  $('mail').addEventListener('click', e => {
+    const a = e.currentTarget.dataset.mail;
+    const done = () => toast(a + ' copied');
+    try { navigator.clipboard.writeText(a).then(done, () => toast(a)); } catch (err) { toast(a); }
+  });
+
+  /* ------------------------------------------------------------------
+     portrait: an ink drawing turned into glyph classes
+     a = skin, b = thin ink, c = heavier ink, d = solid ink (hair, shirt)
+     ------------------------------------------------------------------ */
+  const GRID = `                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                            d      ddddddddd                                                    
+                                                         dddddd  ddddccccddd        d                                           
+                                                   d    dddddddddddddddddddddddddd dddd                                         
+                                                 dddd dddddddddddddddddddddddddccbcddddd                                        
+                                                  dddddddddddddddddddddddddddddddddddddd                                        
+                                             dd  ddddddddddddddddddddddddddddddddddddddd d                                      
+                                           dd dddddddddddddddddddddddddddddddddddddddddddd                                      
+                                          ddddddddddddddddddddddddddddddddddddddddddddddd   ddd                                 
+                                         dddddddddddddddddddddddddddddddddddddddddddddddddddddd                                 
+                                      dddddddddddddddddddddddddddddddddddddddddddddddddddccdddc                                 
+                                       ddddddddddddddddddddddddddddddddddddddcccddddddddddddddd                                 
+                                     ddddddddddddddddddddccccddddddddcddddddddddddddddddddddd                                   
+                                    ddddddddddddddddcbbbbbbaaaabbbaaaaabcdddcdddddddddddddddddd                                 
+                                    ddddddddddddddbaaaaaaaaaaaaaaaaaaaaaaaabbbbaacdddddddddddd                                  
+                                   dddddddddddddcbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacddddddddddd                                 
+                                   ddddddddddddddbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcdddddd                                   
+                                   dddddddddddddcbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaddddd                                    
+                                   ddddddddddddddaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdddd                                    
+                                  ddddddddddddddcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdddd                                    
+                                   ddddddddddddcaaaaabcccccccccbbbaaaaaaaaaaaaaaaaaaaaabdddd                                    
+                                   dddddddddddcaaabcdddccddddddddddccbaaaaabbbbbbbaaaaabddd                                     
+                                   ddddddddddcaaabcbbaaaaaaaabbbcccccaaaabdddddddddddcbaddd                                     
+                                    dddddddddbaaaaaaaaaaaaaaaaaaaaaaaaaaabcccccccccccddcdd                                      
+                                    dddddddddaaaaaaaabccdddddddcaaaaaaaabcaaaaaaaaaaaabcdd                                      
+                                    dddddddddaaaaaaaccbcddddaabcbaaaaaaadaabcdddccbaaaabdd                                      
+                                  ddcbabcdddcaaaaaaaaaaacccbaaaaaaaaaaaadabcddddcbcdcaacd                                       
+                                  dcabbaabddbaaaaaaaaaaaaaaaaaaaaaaaaaaacbaabcccbaaacaacd                                       
+                                 ddabbccbaabaaaaaaaaaaaaaaaaaaaaaaaaaaaabdaaaaaaaaaaaaadd                                       
+                                 dcaaaabdbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadcaaaaaaaaaaaadcdd                                     
+                                 ddaaaacdcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabdbaaaaaaaaaaadbcd                                     
+                                 ddbaaaddaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdaaaaaaaaaabdcdd                                     
+                                  ddaaacdcaaaaaaaaaaaaaaaaaaaaaaaabccbaaacdcaaaaaaaaaabdcdd                                     
+                                   dcaaaabbaaaaaaaaaaaaaaaaaaaaaaabbaaabddbaaaaaaaaaaaccbdd                                     
+                                    dcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabdbcd                                      
+                                    ddcbbbccbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdbd                                       
+                                      dddddddaaaaaaaaaaaaaabbbabbbbbbaaaaaaaaaaaaaaaadbcd                                       
+                                          dddbaaaaaaaaaaaaabcccccccccccdccbbbaaaaaaacbadd                                       
+                                           ddcaaaaaaaaaaaaaaaaaaaaaaaaaaabbbaaaaaaabdcdd                                        
+                                           dddbaaaaaaaaaaaaaaaaaabbbbbbaaaaaaaaaaaacdd                                          
+                                           ddddbaaaaaaaaaaaaaaaaaaabbbbaaaaaaaaaaacd                                            
+                                           ddbcdcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabd                                             
+                                           ddbabcdbaaaaaaaaaaaaaaaaaaaaaaaaaaaaacd                                              
+                                           ddbaaacddcbaaaaaaaaaaaaaaaaaaaaaaaabdd                                               
+                                           ddbaaaabdddcbaaabaaaaaaaaaaaaaaaabcdd                                                
+                                           ddcaaaaaacddddccbbabaaaaaaabababcdbcd                                                
+                                            dcaaaaaaabdddddddcccbaababbccdcbaacd                                                
+                                            dcaaaaaaaaacddddddddddddddddcbaaaacd                                                
+                                            dcaaaaaaaaaaacdddddddddddcbaaaaaaacdd                                               
+                                            dcaaaaaaaaaaaaacddddddcbaaaaaaaaaabdd                                               
+                                            dcaaaaaaaaaaaaaaaabbaaaaaaaaaaaaaabdd                                               
+                                           ddcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacddddd                                           
+                                        dddcdbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcdddddd                                        
+                                    ddddddbadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabdddddddd                                    
+                                 ddddddddcaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdddddddddddd                                
+                              ddddddddddddaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacddddddddddddddddd                            
+                          ddddddddddddddddcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabddddddddddddddddddddddd                        
+                       ddddddddddddddddddddcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcddddddddddddddddddddddddddd                     
+                    dddddddddddddddddddddddddbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcddddddddddddddddddddddddddddddddd                 
+                dddddddddddddddddddddddddddddddcbaaaaaaaaaaaaaaaaaaaaaaaabcddddddddddddddddddddddddddddddddddddddd              
+             dddddddddddddddddddddddddddddddddddddcbbaaaaaaaaaaaaaabbccdddddddddddddddddddddddddddddddddddddddddddddd           
+           dddddddddddddddddddddddddddddddddddddddddddddccccccccdddddddddddddddddddddddddddddddddddddddddddddddddddddddd        
+         dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd       
+       dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd       
+       ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd        
+         ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd          
+          dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd            
+             dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd               
+               ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                  
+                  ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                     
+                     ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                        
+                         ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                            
+                              dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                                  
+                                    dddddddddddddddddddddddddddddddddddddddddddddddddddd                                        
+                                             dddddddddddddddddddddddddddddddddd                                                 `.split('\n');
+  const ROWS = GRID.length, COLS = GRID[0].length;
+  const SET = { a: '@#%&$8B0QWMNg', b: '+=*o?ci7tjl1', c: ':;~-<>!^"\'', d: '/\\|(){}[]?_-<>~;:il!' };
+  const COLOR = { a: [236, 232, 223], b: [92, 89, 83], c: [62, 60, 56], d: [104, 100, 93] };
+  const LASER = [255, 90, 74];
+  let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+  const cells = [];
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+    const k = GRID[r][c];
+    if (k !== ' ') cells.push({ r, c, k, ch: SET[k][Math.floor(rnd() * SET[k].length)], hit: Infinity, done: Infinity });
+  }
+  const minC = Math.min(...cells.map(e => e.c)), maxC = Math.max(...cells.map(e => e.c));
+
+  const cv = $('ascii'), ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const PAD_R = 70;                         // room on the right for the scanner and its rail
+  const cw = (W - PAD_R) / COLS, chH = H / ROWS;
+  const X0 = 0;
+  const FONT = `500 ${Math.round(chH * 1.02)}px "JetBrains Mono", ui-monospace, monospace`;
+  const SMALL = `400 15px "JetBrains Mono", ui-monospace, monospace`;
+  const sheen = (r, c) => { const t = (c / COLS) * .7 + (r / ROWS) * .3; return [Math.round(-14 + 22 * t), Math.round(-4 + 6 * t), Math.round(16 - 26 * t)]; };
+  const cx = e => X0 + (e.c + .5) * cw, cy = e => (e.r + .5) * chH;
+
+  // scanner: a spinning unit that rides a vertical rail on the right
+  const RAIL_X = W - 30, RAIL_Y0 = H * .1, RAIL_Y1 = H * .9;
+  const unit = { y: H * .45, spin: 0 };
+
+  let pointer = null;
+  cv.addEventListener('pointermove', e => { const b = cv.getBoundingClientRect(); pointer = { x: (e.clientX - b.left) / b.width * W, y: (e.clientY - b.top) / b.height * H }; });
+  cv.addEventListener('pointerleave', () => pointer = null);
+
+  /* the scan plan: raster the face from right to left in vertical bands.
+     every cell gets a time when a beam first hits it (a red point appears),
+     then it settles into its glyph once the reconstruction pass reaches it. */
+  const SCAN = 4.2, SETTLE = .55;
+  function plan() {
+    for (const e of cells) {
+      const u = 1 - (e.c - minC) / (maxC - minC + 1);           // 0 at the right edge
+      e.hit = u * SCAN * .86 + rnd() * SCAN * .14;
+      e.done = e.hit + SETTLE + rnd() * .35;
+    }
+  }
+
+  function drawScanner(t, active) {
+    ctx.save();
+    // rail
+    ctx.strokeStyle = 'rgba(230,227,220,.12)'; ctx.lineWidth = 1; ctx.setLineDash([2, 6]);
+    ctx.beginPath(); ctx.moveTo(RAIL_X, RAIL_Y0); ctx.lineTo(RAIL_X, RAIL_Y1); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(230,227,220,.25)';
+    for (let y = RAIL_Y0; y <= RAIL_Y1 + 1; y += (RAIL_Y1 - RAIL_Y0) / 8) ctx.fillRect(RAIL_X + 6, y, 5, 1);
+    // body
+    const y = unit.y;
+    ctx.fillStyle = '#0e0e11'; ctx.strokeStyle = active ? 'rgba(255,90,74,.9)' : 'rgba(230,227,220,.35)';
+    ctx.beginPath(); ctx.roundRect ? ctx.roundRect(RAIL_X - 13, y - 20, 26, 40, 5) : ctx.rect(RAIL_X - 13, y - 20, 26, 40); ctx.fill(); ctx.stroke();
+    // spinning head
+    ctx.beginPath(); ctx.arc(RAIL_X, y, 8, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(RAIL_X, y, 8, unit.spin, unit.spin + 1.1); ctx.lineWidth = 3; ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = active ? 'rgb(255,90,74)' : 'rgba(230,227,220,.5)';
+    ctx.beginPath(); ctx.arc(RAIL_X - 9, y, 2.2, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+
+  function glyphColor(e, hot) {
+    let col = COLOR[e.k];
+    if (e.k === 'a') { const s = sheen(e.r, e.c); col = [col[0] + s[0], col[1] + s[1], col[2] + s[2]]; }
+    if (pointer) {
+      const px = cx(e) - pointer.x, py = cy(e) - pointer.y;
+      const q = Math.exp(-(px * px + py * py) / (2 * 28 * 28));
+      if (q > hot) hot = q * .9;
+    }
+    if (hot > .01) col = col.map((v, i) => Math.round(v + (LASER[i] - v) * hot));
+    return `rgb(${col[0]},${col[1]},${col[2]})`;
+  }
+
+  let hud = '';
+  function draw(t, beams) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.font = FONT; ctx.textBaseline = 'top';
+    let pts = 0;
+    for (const e of cells) {
+      if (t < e.hit) continue;
+      pts++;
+      if (t < e.done) {
+        // point cloud stage: a laser return, cooling from red to bone
+        const k = Math.min(1, (t - e.hit) / SETTLE);
+        const a = 1 - k * .55;
+        ctx.fillStyle = `rgba(${Math.round(255 - 30 * k)},${Math.round(90 + 130 * k)},${Math.round(74 + 140 * k)},${a})`;
+        ctx.fillRect(cx(e) - 1.3, cy(e) - 1.3, 2.6, 2.6);
+      } else {
+        const hot = Math.max(0, 1 - (t - e.done) / .45);
+        ctx.fillStyle = glyphColor(e, hot * .8);
+        ctx.fillText(e.ch, X0 + e.c * cw, e.r * chH);
+      }
+    }
+    // beams: a vertical fan of channels from the scanner head to this frame's returns
+    if (beams && beams.length) {
+      const hx = RAIL_X - 9, hy = unit.y;
+      for (const b of beams) {
+        const g = ctx.createLinearGradient(hx, hy, b.x, b.y);
+        g.addColorStop(0, 'rgba(255,90,74,.05)'); g.addColorStop(1, `rgba(255,90,74,${b.a})`);
+        ctx.strokeStyle = g; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(b.x, b.y); ctx.stroke();
+        ctx.fillStyle = `rgba(255,140,120,${Math.min(1, b.a + .3)})`;
+        ctx.beginPath(); ctx.arc(b.x, b.y, 2.4, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = 'rgba(255,90,74,.18)';
+        ctx.beginPath(); ctx.arc(b.x, b.y, 6, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    drawScanner(t, !!(beams && beams.length));
+    // readout
+    ctx.font = SMALL; ctx.fillStyle = 'rgba(230,227,220,.3)'; ctx.textAlign = 'right';
+    ctx.fillText(hud || `${pts.toLocaleString('en-US')} pts`, W - 4, H - 22);
+    ctx.textAlign = 'left';
+  }
+
+  let anim = 0, scanning = false, t0 = 0, lastNow = 0;
+  function scan() {
+    cancelAnimationFrame(anim);
+    if (reduce || still) { cells.forEach(e => { e.hit = 0; e.done = 0; }); hud = `${cells.length.toLocaleString('en-US')} pts · 16 ch`; draw(99, null); return; }
+    plan(); scanning = true; t0 = performance.now(); lastNow = t0;
+    const END = Math.max(...cells.map(e => e.done)) + .5;
+    const step = now => {
+      const t = freeze ? freeze : (now - t0) / 1000, dt = Math.min(.05, (now - lastNow) / 1000); lastNow = now;
+      unit.spin += freeze ? 2 : dt * 22;
+      // this frame's returns: cells whose first hit falls in the last few frames
+      const fresh = cells.filter(e => e.hit <= t && e.hit > t - .07);
+      const beams = [];
+      for (let i = 0; i < Math.min(16, fresh.length); i++) {
+        const e = fresh[Math.floor(rnd() * fresh.length)];
+        beams.push({ x: cx(e), y: cy(e), a: .3 + rnd() * .5 });
+      }
+      if (beams.length) { const my = beams.reduce((s, b) => s + b.y, 0) / beams.length; unit.y += (Math.max(RAIL_Y0 + 20, Math.min(RAIL_Y1 - 20, my)) - unit.y) * .18; }
+      const shown = cells.reduce((s, e) => s + (e.hit <= t), 0);
+      hud = t < SCAN ? `${shown.toLocaleString('en-US')} pts · 16 ch · 10 hz` : (t < END ? 'reconstructing' : `${cells.length.toLocaleString('en-US')} pts · 16 ch`);
+      draw(t, t < SCAN + .1 ? beams : null);
+      if (freeze) { unit.y = Math.max(RAIL_Y0 + 20, Math.min(RAIL_Y1 - 20, beams.length ? beams.reduce((q, x) => q + x.y, 0) / beams.length : unit.y)); draw(t, beams); return; }
+      if (t < END) anim = requestAnimationFrame(step);
+      else { scanning = false; idle(); }
+    };
+    anim = requestAnimationFrame(step);
+  }
+
+  // at rest the unit idles on its rail, and a few glyphs re-read now and then
+  let idleT = 0;
+  function idle() {
+    clearInterval(idleT);
+    if (reduce || still) return;
+    idleT = setInterval(() => {
+      if (scanning || document.hidden) return;
+      unit.spin += .5;
+      unit.y += ((H * .45 + Math.sin(performance.now() / 2400) * H * .25) - unit.y) * .08;
+      for (let i = 0; i < 14; i++) { const e = cells[Math.floor(rnd() * cells.length)]; e.ch = SET[e.k][Math.floor(rnd() * SET[e.k].length)]; }
+      draw(999, null);
+    }, 120);
+  }
+  let hoverRaf = 0;
+  cv.addEventListener('pointermove', () => { if (scanning || reduce) return; cancelAnimationFrame(hoverRaf); hoverRaf = requestAnimationFrame(() => draw(999, null)); });
+  cv.addEventListener('click', scan);
+  $('rescan').addEventListener('click', scan);
+
+  // complete at rest first, then scan once the font is in
+  cells.forEach(e => { e.hit = 0; e.done = 0; });
+  hud = `${cells.length.toLocaleString('en-US')} pts · 16 ch`;
+  draw(999, null);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { draw(999, null); freeze ? scan() : setTimeout(scan, 300); });
+
+  /* ------------------------------------------------------------------
+     wakatime, refreshed by the hourly deploy
+     ------------------------------------------------------------------ */
+  fetch('data/coding.json', { cache: 'no-store' }).then(r => r.json()).then(j => {
+    const s = j && j.status; if (!s) { $('c-upd').textContent = 'waiting for the first week of data'; return; }
+    const n = v => Number(v || 0).toLocaleString('en-US');
+    $('c-today-k').innerHTML = s.is_live ? '<i class="live"></i>coding now' : 'today';
+    $('c-today').textContent = s.total_today || '0 secs';
+    $('c-week').textContent = s.week_total || '0 secs';
+    const rows = $('c-langs').children;
+    (s.week_languages || []).slice(0, 3).forEach((l, i) => {
+      if (!rows[i]) return;
+      rows[i].children[0].textContent = String(l.name).toLowerCase();
+      rows[i].querySelector('.bar i').style.width = Math.max(0, Math.min(100, l.percent)) + '%';
+      rows[i].querySelector('.p').textContent = Math.round(l.percent) + '%';
+    });
+    const ha = +s.human_additions || 0, hd = +s.human_deletions || 0, aa = +s.ai_additions || 0, ad = +s.ai_deletions || 0;
+    const all = ha + hd + aa + ad, ai = all ? Math.round((aa + ad) / all * 100) : 0, hu = all ? 100 - ai : 0;
+    const sp = $('c-split').children; sp[0].style.width = hu + '%'; sp[1].style.width = ai + '%';
+    $('c-split').title = all ? `${hu}% human, ${ai}% ai-assisted` : 'no line changes yet';
+    $('c-h-k').textContent = all ? `human · ${hu}%` : 'human';
+    $('c-a-k').textContent = all ? `ai-assisted · ${ai}%` : 'ai-assisted';
+    $('c-ha').textContent = '+' + n(ha); $('c-hd').textContent = '−' + n(hd);
+    $('c-aa').textContent = '+' + n(aa); $('c-ad').textContent = '−' + n(ad);
+    $('c-upd').textContent = 'via wakatime' + (s.updated ? ' · ' + s.updated : '');
+  }).catch(() => { $('c-upd').textContent = 'stats unavailable right now'; });
+
+  /* ------------------------------------------------------------------
+     github contributions, refreshed by the same deploy
+     ------------------------------------------------------------------ */
+  fetch('data/github.json', { cache: 'no-store' }).then(r => r.json()).then(g => {
+    const days = g.days || [], [y, m, d] = g.start.split('-').map(Number);
+    const DAY0 = Date.UTC(y, m - 1, d);
+    const startDow = new Date(DAY0).getUTCDay();
+    const heat = $('heat'), months = $('months');
+    const lvl = v => v === 0 ? 0 : v < 4 ? 1 : v < 12 ? 2 : v < 30 ? 3 : 4;
+    const dfmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+    const mfmt = new Intl.DateTimeFormat('en-GB', { month: 'short', timeZone: 'UTC' });
+    for (let i = 0; i < startDow; i++) heat.appendChild(Object.assign(document.createElement('i'), { style: 'visibility:hidden' }));
+    let total = 0;
+    days.forEach((v, i) => {
+      total += v;
+      const el = document.createElement('i'); el.dataset.l = lvl(v);
+      el.title = `${v} on ${dfmt.format(new Date(DAY0 + i * 864e5))}`;
+      heat.appendChild(el);
+    });
+    const weeks = Math.ceil((days.length + startDow) / 7);
+    let lastM = -1;
+    for (let w = 0; w < weeks; w++) {
+      const dt = new Date(DAY0 + (w * 7 - startDow) * 864e5), mo = dt.getUTCMonth();
+      const lab = document.createElement('span');
+      if (mo !== lastM && w < weeks - 2) { if (lastM !== -1 || dt.getUTCDate() <= 7) lab.textContent = mfmt.format(dt).toLowerCase().slice(0, 3); lastM = mo; }
+      months.appendChild(lab);
+    }
+    $('total').textContent = `${(g.total ?? total).toLocaleString('en-US')} contributions in the last year`;
+  }).catch(() => { $('total').textContent = 'activity unavailable right now'; });
+})();
+</script>
+</body>
+</html>
