@@ -1,13 +1,13 @@
 """Write site/data/coding.json (WakaTime) and site/data/github.json (contributions).
 
-Env: WAKATIME_API_KEY (falls back to ~/.wakatime.cfg), GITHUB_TOKEN, GH_USER.
+Env: WAKATIME_API_KEY (falls back to ~/.wakatime.cfg), GITHUB_TOKEN.
 A source that fails keeps the snapshot already in site/data.
 """
 import base64, configparser, json, os, sys, time, urllib.request
 from datetime import datetime, timezone
 
 OUT = os.path.join(os.path.dirname(__file__), '..', 'site', 'data')
-USER = os.environ.get('GH_USER', 'sa1ntsinner')
+ACCOUNTS = [('personal', 'sa1ntsinner'), ('work', 'emirzayev-ant')]
 
 
 def write(name, data):
@@ -82,14 +82,21 @@ def github():
     if not token:
         print('github: no token, keeping snapshot')
         return
-    q = {'query': 'query($u:String!){user(login:$u){contributionsCollection{contributionCalendar{totalContributions weeks{contributionDays{date contributionCount}}}}}}',
-         'variables': {'u': USER}}
-    req = urllib.request.Request('https://api.github.com/graphql', data=json.dumps(q).encode(),
-                                 headers={'Authorization': 'bearer ' + token, 'Content-Type': 'application/json'})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        cal = json.load(r)['data']['user']['contributionsCollection']['contributionCalendar']
-    days = [d for w in cal['weeks'] for d in w['contributionDays']]
-    write('github.json', {'total': cal['totalContributions'], 'start': days[0]['date'], 'days': [d['contributionCount'] for d in days]})
+    q = 'query($u:String!){user(login:$u){contributionsCollection{contributionCalendar{totalContributions weeks{contributionDays{date contributionCount}}}}}}'
+    per_day, parts = {}, {}
+    # personal account plus the work one; private work repos only show up as counts
+    for label, user in ACCOUNTS:
+        req = urllib.request.Request('https://api.github.com/graphql',
+                                     data=json.dumps({'query': q, 'variables': {'u': user}}).encode(),
+                                     headers={'Authorization': 'bearer ' + token, 'Content-Type': 'application/json'})
+        with urllib.request.urlopen(req, timeout=30) as r:
+            cal = json.load(r)['data']['user']['contributionsCollection']['contributionCalendar']
+        parts[label] = cal['totalContributions']
+        for w in cal['weeks']:
+            for d in w['contributionDays']:
+                per_day[d['date']] = per_day.get(d['date'], 0) + d['contributionCount']
+    dates = sorted(per_day)
+    write('github.json', {'total': sum(parts.values()), 'parts': parts, 'start': dates[0], 'days': [per_day[d] for d in dates]})
 
 
 for job in (wakatime, github):

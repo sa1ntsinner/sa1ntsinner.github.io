@@ -547,7 +547,8 @@ footer a:hover{color:var(--fg)}
       if (mo !== lastM && w < weeks - 2) { if (lastM !== -1 || dt.getUTCDate() <= 7) lab.textContent = mfmt.format(dt).toLowerCase().slice(0, 3); lastM = mo; }
       months.appendChild(lab);
     }
-    $('total').textContent = `${(g.total ?? total).toLocaleString('en-US')} contributions in the last year`;
+    $('total').textContent = `${(g.total ?? total).toLocaleString('en-US')} contributions in the last year` + (g.parts ? ` · personal + work` : '');
+    if (g.parts) $('total').title = Object.entries(g.parts).map(([k, v]) => `${k} ${v.toLocaleString('en-US')}`).join(' · ');
   }).catch(() => { $('total').textContent = 'activity unavailable right now'; });
 })();
 </script>
