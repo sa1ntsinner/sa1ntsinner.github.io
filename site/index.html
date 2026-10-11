@@ -47,7 +47,7 @@ nav a:hover{color:var(--fg)}
 @media (max-width:520px){nav{gap:14px;font-size:12.5px}nav .opt{display:none}}
 
 .hero{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:52px;align-items:center;padding-block:56px 64px}
-@media (max-width:840px){.hero{grid-template-columns:1fr;gap:26px;padding-block:28px 44px}.portrait{max-width:440px}}
+@media (max-width:840px){.hero{grid-template-columns:1fr;gap:26px;padding-block:28px 44px}.portrait{max-width:440px;margin-inline:auto;width:100%}}
 #ascii{display:block;width:100%;height:auto;aspect-ratio:1/1;cursor:crosshair}
 .chips{display:flex;justify-content:center;gap:10px;margin-top:12px;font-size:12px;flex-wrap:wrap}
 .chip{border:1px solid var(--line);padding:3px 10px;color:var(--dim);font-variant-numeric:tabular-nums;background:var(--panel)}
@@ -59,6 +59,8 @@ nav a:hover{color:var(--fg)}
 .prompt b{color:var(--laser);font-weight:400}
 h1{margin:6px 0 0;font-weight:500;font-size:28px;line-height:1.25;color:var(--fg);letter-spacing:-.01em}
 h1 span{color:var(--dim);font-weight:300;font-size:18px;white-space:nowrap}
+.caret{display:inline-block;width:7px;height:17px;margin-left:8px;vertical-align:-1px;background:var(--laser);animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
 .role{margin:10px 0 0;color:var(--fg)}
 .role span{color:var(--dim)}
 .bio{margin:14px 0 0;max-width:48ch}
@@ -116,9 +118,10 @@ ul{list-style:none;margin:0;padding:0}
 
 .log{border:1px solid var(--line);background:var(--panel);padding:20px}
 .log-wrap{overflow-x:auto}
-.months{display:grid;grid-auto-flow:column;grid-auto-columns:15px;font-size:11px;color:var(--dim);height:20px;width:max-content;white-space:nowrap}
-.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,12px);grid-auto-columns:12px;gap:3px;width:max-content}
-.heat i{background:#141417;display:block}
+.months{display:grid;grid-auto-flow:column;grid-auto-columns:16px;font-size:11px;color:var(--dim);height:20px;width:max-content;white-space:nowrap}
+.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,13px);grid-auto-columns:13px;gap:3px;width:max-content}
+.heat i{background:#141417;display:block;transition:outline-color .15s;outline:1px solid transparent;outline-offset:1px}
+.heat i:hover{outline-color:var(--dim)}
 .heat i[data-l="1"]{background:#3b3933}
 .heat i[data-l="2"]{background:#6f6b61}
 .heat i[data-l="3"]{background:#b3ada0}
@@ -152,7 +155,7 @@ footer a:hover{color:var(--fg)}
 
       <div>
         <div class="prompt"><b>~</b> whoami</div>
-        <h1>elmir mirzayev <span>/ sa1ntsinner</span></h1>
+        <h1>elmir mirzayev <span>/ sa1ntsinner</span><i class="caret" aria-hidden="true"></i></h1>
         <p class="role">robotics &amp; automation engineer <span>· germany</span></p>
         <p class="bio">i program plcs and robots for a living. after hours it is backend, some frontend, and whatever new tech shows up.</p>
         <p class="quote">sensors lie, clocks drift. this page is the most reliable thing i ship.</p>
@@ -202,7 +205,7 @@ footer a:hover{color:var(--fg)}
             <div><div class="k" id="c-a-k">ai-assisted</div><div class="n"><span class="add" id="c-aa">+0</span><span class="del" id="c-ad">−0</span></div></div>
           </div>
         </div>
-        <div class="code-foot"><span>↻ rolling 7 days · the goal is more by hand</span><span id="c-upd">via wakatime</span></div>
+        <div class="code-foot"><span>↻ rolling 7 days</span><span id="c-upd">via wakatime</span></div>
       </div>
     </section>
 
@@ -497,8 +500,7 @@ footer a:hover{color:var(--fg)}
   fetch('data/coding.json', { cache: 'no-store' }).then(r => r.json()).then(j => {
     const s = j && j.status; if (!s) { $('c-upd').textContent = 'waiting for the first week of data'; return; }
     const n = v => Number(v || 0).toLocaleString('en-US');
-    $('c-today-k').innerHTML = s.is_live ? '<i class="live"></i>coding now' : 'today';
-    $('c-today').textContent = s.total_today || '0 secs';
+        $('c-today').textContent = s.total_today || '0 secs';
     $('c-week').textContent = s.week_total || '0 secs';
     const rows = $('c-langs').children;
     (s.week_languages || []).slice(0, 3).forEach((l, i) => {
