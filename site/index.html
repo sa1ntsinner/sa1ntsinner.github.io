@@ -57,7 +57,7 @@ nav a:hover{color:var(--fg)}
 
 .hero{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:52px;align-items:center;padding-block:56px 64px}
 @media (max-width:840px){.hero{grid-template-columns:1fr;gap:26px;padding-block:28px 44px}.portrait{max-width:440px;margin-inline:auto;width:100%}}
-#ascii{display:block;width:100%;height:auto;aspect-ratio:1/1;cursor:crosshair}
+#ascii{display:block;width:100%;height:auto;aspect-ratio:1/1;cursor:crosshair;-webkit-tap-highlight-color:transparent}
 .chips{display:flex;justify-content:center;gap:10px;margin-top:12px;font-size:12px;flex-wrap:wrap}
 .chip{border:1px solid var(--line);padding:3px 10px;color:var(--dim);font-variant-numeric:tabular-nums;background:var(--panel)}
 .chip i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--laser);margin-right:8px;vertical-align:1px}
@@ -144,13 +144,7 @@ footer a:hover{color:var(--fg)}
 footer .build{color:var(--faint)}
 footer .build a{color:var(--dim)}
 .chip .st{color:var(--faint)}
-.now{border-top:1px solid var(--line)}
-.now li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;padding:10px 0;border-bottom:1px solid var(--line)}
-.now .k{color:var(--dim)}
-.now .k::after{content:":"}
-.now span:last-child{color:var(--fg-2)}
-@media (max-width:620px){.now li{grid-template-columns:1fr;gap:2px}}
-.print-only{display:none}
+@media (max-width:620px){.print-only{display:none}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--fg);color:var(--bg);font-size:12px;padding:8px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
 
@@ -170,8 +164,7 @@ footer .build a{color:var(--dim)}
   .side li a::after{content:attr(href);grid-column:2;color:var(--dim);font-size:9pt}
   .tags span{border-color:#bbb}
   html,body{font-size:9.5pt;line-height:1.5}
-  .man li,.now li{padding:4pt 0}
-  .side li a{padding:4pt 0;gap:2pt 16px}
+  .man li,  .side li a{padding:4pt 0;gap:2pt 16px}
   .cmd{margin-bottom:6pt}
   .bio{max-width:none}
 }
@@ -226,17 +219,6 @@ footer .build a{color:var(--dim)}
         <li><a href="https://github.com/sa1ntsinner/rung" target="_blank" rel="noopener"><span class="k">rung</span><span class="d">tia portal projects as plain text, so plc code can live in git</span><span class="r">ts · ↗</span></a></li>
         <li><a href="https://github.com/sa1ntsinner/nordlys-tab" target="_blank" rel="noopener"><span class="k">nordlys</span><span class="d">a calm new tab for chrome, no account and no tracking</span><span class="r">js · ↗</span></a></li>
       </ul>
-    </section>
-
-    <section id="now">
-      <p class="cmd">cat <b>now.txt</b></p>
-      <ul class="now">
-        <li><span class="k">work</span><span>outdoor robot navigation on ros 2: route following, localisation, the plc link</span></li>
-        <li><span class="k">side</span><span>rung, so tia portal projects can be diffed and reviewed like normal code</span></li>
-        <li><span class="k">practice</span><span>writing more of it by hand. the numbers below keep me honest</span></li>
-        <li><span class="k">desk</span><span>ubuntu + hyprland at home, windows when tia portal insists</span></li>
-      </ul>
-      <p class="note">updated 13 oct 2026</p>
     </section>
 
     <section id="coding">
@@ -507,8 +489,7 @@ footer .build a{color:var(--dim)}
         ctx.fillStyle = `rgba(${Math.round(255 - 30 * k)},${Math.round(90 + 130 * k)},${Math.round(74 + 140 * k)},${a})`;
         ctx.fillRect(cx(e) - 1.3, cy(e) - 1.3, 2.6, 2.6);
       } else {
-        const hot = Math.max(0, 1 - (t - e.done) / .45, e.flash ? 1 - (performance.now() - e.flash) / 600 : 0);
-        if (lens(e)) continue;
+        const hot = Math.max(0, 1 - (t - e.done) / .45, e.flash ? 1 - (performance        if (lens(e)) continue;
         ctx.fillStyle = glyphColor(e, hot * .8);
         ctx.fillText(e.ch, X0 + e.c * cw, e.r * chH);
       }
@@ -545,8 +526,7 @@ footer .build a{color:var(--dim)}
   function scan() {
     cancelAnimationFrame(anim); cancelAnimationFrame(sweepRaf); clearTimeout(idleT); sweepY = null;
     if (reduce || still) { cells.forEach(e => { e.hit = 0; e.done = 0; }); hud = `${cells.length.toLocaleString('en-US')} pts · 16 ch`; draw(99, null); return; }
-    plan(); scanning = true; t0 = performance.now(); lastNow = t0;
-    const END = Math.max(...cells.map(e => e.done)) + .5;
+    plan(); scanning = true; t0 = performance    const END = Math.max(...cells.map(e => e.done)) + .5;
     const step = now => {
       const t = freeze ? freeze : (now - t0) / 1000, dt = Math.min(.05, (now - lastNow) / 1000); lastNow = now;
       unit.spin += freeze ? 2 : dt * 22;
@@ -568,7 +548,6 @@ footer .build a{color:var(--dim)}
     anim = requestAnimationFrame(step);
   }
 
-  // at rest the unit idles on its rail, and a few glyphs re-read now and then
   // at rest: every few seconds one thin line sweeps down and re-reads the rows it passes
   let idleT = 0, sweepRaf = 0;
   function idle() {
@@ -578,8 +557,7 @@ footer .build a{color:var(--dim)}
   }
   function sweep() {
     if (scanning || document.hidden || probe) return idle();
-    const s0 = performance.now(), DUR = 2600;
-    let row = -1;
+    const s0 = performance    let row = -1;
     const step = now => {
       if (scanning) { sweepY = null; return; }
       const u = Math.min(1, (now - s0) / DUR);
@@ -604,23 +582,30 @@ footer .build a{color:var(--dim)}
     draw(999, null);
     if (Math.abs(ty - unit.y) > .5) followRaf = requestAnimationFrame(follow);
   };
-  cv.addEventListener('pointermove', e => {
+  // mouse: the probe follows the cursor. touch has no hover, so a tap pins it for a few seconds.
+  // a click never rescans: that is what the rescan chip and the s key are for.
+  let unpin = 0;
+  const aim = e => {
     const b = cv.getBoundingClientRect();
     probe = { x: (e.clientX - b.left) / b.width * W, y: (e.clientY - b.top) / b.height * H };
     if (scanning) return;
     cancelAnimationFrame(sweepRaf); sweepY = null;
     cancelAnimationFrame(followRaf); followRaf = requestAnimationFrame(follow);
+  };
+  const release = () => { probe = null; if (!scanning) { draw(999, null); idle(); } };
+  cv.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') aim(e); });
+  cv.addEventListener('pointerdown', e => {
+    aim(e);
+    clearTimeout(unpin);
+    if (e.pointerType !== 'mouse') unpin = setTimeout(release, 3500);
   });
-  cv.addEventListener('pointerleave', () => { probe = null; if (!scanning) { draw(999, null); idle(); } });
-  cv.addEventListener('click', scan);
+  cv.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') release(); });
   $('rescan').addEventListener('click', scan);
   addEventListener('keydown', e => { if (e.key === 's' && !e.metaKey && !e.ctrlKey && !e.altKey && !/input|textarea/i.test(e.target.tagName)) scan(); });
   // coming back after a while: take a fresh scan
   let hiddenAt = 0;
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) hiddenAt = Date.now();
-    else if (hiddenAt && Date.now() - hiddenAt > 60000 && cv.getBoundingClientRect().bottom > 0) scan();
-  });
+    if (document.hidden) hiddenAt = Date    else if (hiddenAt && Date  });
 
   // complete at rest first, then scan once the font is in
   cells.forEach(e => { e.hit = 0; e.done = 0; });
@@ -655,8 +640,7 @@ footer .build a{color:var(--dim)}
   }).catch(() => { $('c-upd').textContent = 'stats unavailable right now'; });
 
   fetch('data/build.json', { cache: 'no-store' }).then(r => r.json()).then(b => {
-    const mins = Math.max(0, Math.round((Date.now() - Date.parse(b.at)) / 60000));
-    const ago = mins < 60 ? `${mins} min ago` : mins < 2880 ? `${Math.round(mins / 60)} h ago` : `${Math.round(mins / 1440)} d ago`;
+    const mins = Math.max(0, Math.round((Date    const ago = mins < 60 ? `${mins} min ago` : mins < 2880 ? `${Math.round(mins / 60)} h ago` : `${Math.round(mins / 1440)} d ago`;
     $('build').innerHTML = `· build <a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io/commit/${b.sha}" target="_blank" rel="noopener">${b.sha.slice(0, 7)}</a> · ${ago}`;
     $('build').title = new Date(b.at).toUTCString();
   }).catch(() => {});
