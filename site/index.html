@@ -144,7 +144,7 @@ footer a:hover{color:var(--fg)}
 footer .build{color:var(--faint)}
 footer .build a{color:var(--dim)}
 .chip .st{color:var(--faint)}
-@media (max-width:620px){.print-only{display:none}
+.print-only{display:none}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--fg);color:var(--bg);font-size:12px;padding:8px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
 
@@ -164,7 +164,8 @@ footer .build a{color:var(--dim)}
   .side li a::after{content:attr(href);grid-column:2;color:var(--dim);font-size:9pt}
   .tags span{border-color:#bbb}
   html,body{font-size:9.5pt;line-height:1.5}
-  .man li,  .side li a{padding:4pt 0;gap:2pt 16px}
+  .man li{padding:4pt 0}
+  .side li a{padding:4pt 0;gap:2pt 16px}
   .cmd{margin-bottom:6pt}
   .bio{max-width:none}
 }
@@ -489,7 +490,8 @@ footer .build a{color:var(--dim)}
         ctx.fillStyle = `rgba(${Math.round(255 - 30 * k)},${Math.round(90 + 130 * k)},${Math.round(74 + 140 * k)},${a})`;
         ctx.fillRect(cx(e) - 1.3, cy(e) - 1.3, 2.6, 2.6);
       } else {
-        const hot = Math.max(0, 1 - (t - e.done) / .45, e.flash ? 1 - (performance        if (lens(e)) continue;
+        const hot = Math.max(0, 1 - (t - e.done) / .45, e.flash ? 1 - (performance.now() - e.flash) / 600 : 0);
+        if (lens(e)) continue;
         ctx.fillStyle = glyphColor(e, hot * .8);
         ctx.fillText(e.ch, X0 + e.c * cw, e.r * chH);
       }
@@ -526,7 +528,8 @@ footer .build a{color:var(--dim)}
   function scan() {
     cancelAnimationFrame(anim); cancelAnimationFrame(sweepRaf); clearTimeout(idleT); sweepY = null;
     if (reduce || still) { cells.forEach(e => { e.hit = 0; e.done = 0; }); hud = `${cells.length.toLocaleString('en-US')} pts · 16 ch`; draw(99, null); return; }
-    plan(); scanning = true; t0 = performance    const END = Math.max(...cells.map(e => e.done)) + .5;
+    plan(); scanning = true; t0 = performance.now(); lastNow = t0;
+    const END = Math.max(...cells.map(e => e.done)) + .5;
     const step = now => {
       const t = freeze ? freeze : (now - t0) / 1000, dt = Math.min(.05, (now - lastNow) / 1000); lastNow = now;
       unit.spin += freeze ? 2 : dt * 22;
@@ -557,7 +560,8 @@ footer .build a{color:var(--dim)}
   }
   function sweep() {
     if (scanning || document.hidden || probe) return idle();
-    const s0 = performance    let row = -1;
+    const s0 = performance.now(), DUR = 2600;
+    let row = -1;
     const step = now => {
       if (scanning) { sweepY = null; return; }
       const u = Math.min(1, (now - s0) / DUR);
@@ -605,7 +609,9 @@ footer .build a{color:var(--dim)}
   // coming back after a while: take a fresh scan
   let hiddenAt = 0;
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) hiddenAt = Date    else if (hiddenAt && Date  });
+    if (document.hidden) hiddenAt = Date.now();
+    else if (hiddenAt && Date.now() - hiddenAt > 60000 && cv.getBoundingClientRect().bottom > 0) scan();
+  });
 
   // complete at rest first, then scan once the font is in
   cells.forEach(e => { e.hit = 0; e.done = 0; });
@@ -640,7 +646,8 @@ footer .build a{color:var(--dim)}
   }).catch(() => { $('c-upd').textContent = 'stats unavailable right now'; });
 
   fetch('data/build.json', { cache: 'no-store' }).then(r => r.json()).then(b => {
-    const mins = Math.max(0, Math.round((Date    const ago = mins < 60 ? `${mins} min ago` : mins < 2880 ? `${Math.round(mins / 60)} h ago` : `${Math.round(mins / 1440)} d ago`;
+    const mins = Math.max(0, Math.round((Date.now() - Date.parse(b.at)) / 60000));
+    const ago = mins < 60 ? `${mins} min ago` : mins < 2880 ? `${Math.round(mins / 60)} h ago` : `${Math.round(mins / 1440)} d ago`;
     $('build').innerHTML = `· build <a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io/commit/${b.sha}" target="_blank" rel="noopener">${b.sha.slice(0, 7)}</a> · ${ago}`;
     $('build').title = new Date(b.at).toUTCString();
   }).catch(() => {});
