@@ -16,22 +16,6 @@ def write(name, data):
     print('wrote', name)
 
 
-def find(obj, name):
-    if isinstance(obj, dict):
-        if isinstance(obj.get(name), (int, float)):
-            return obj[name]
-        for v in obj.values():
-            hit = find(v, name)
-            if hit is not None:
-                return hit
-    elif isinstance(obj, list):
-        for v in obj:
-            hit = find(v, name)
-            if hit is not None:
-                return hit
-    return None
-
-
 # the site always shows the same three rows: python, c++, and everything else
 SHOWN = [('Python', 'python'), ('C++', 'c++')]
 
@@ -60,19 +44,31 @@ def wakatime():
         with urllib.request.urlopen(req, timeout=30) as r:
             return json.load(r)
 
-    stats = get('/users/current/stats/last_7_days')['data']
+    # summaries are computed on request; /stats/last_7_days is a cache that can sit stale for days
+    week = get('/users/current/summaries?range=last_7_days')
+    days = week.get('data') or []
+    secs = {}
+    for d in days:
+        for l in d.get('languages') or []:
+            secs[l['name']] = secs.get(l['name'], 0) + (l.get('total_seconds') or 0)
+    total = sum(secs.values())
+    langs = [{'name': n, 'percent': 100 * v / total} for n, v in secs.items()] if total else []
+
+    def lines(name):
+        return sum((d.get('grand_total') or {}).get(name) or 0 for d in days)
+
     today = get('/users/current/status_bar/today')['data']
     beats = get('/users/current/heartbeats?date=' + datetime.now(timezone.utc).strftime('%Y-%m-%d')).get('data', [])
     last = max((b.get('time', 0) for b in beats), default=0)
     write('coding.json', {'status': {
         'is_live': time.time() - last < 900,
         'total_today': (today.get('grand_total') or {}).get('text') or '0 secs',
-        'week_total': stats.get('human_readable_total') or '0 secs',
-        'week_languages': pick_languages(stats.get('languages') or []),
-        'human_additions': find(stats, 'human_additions') or 0,
-        'human_deletions': find(stats, 'human_deletions') or 0,
-        'ai_additions': find(stats, 'ai_additions') or 0,
-        'ai_deletions': find(stats, 'ai_deletions') or 0,
+        'week_total': (week.get('cumulative_total') or {}).get('text') or '0 secs',
+        'week_languages': pick_languages(langs),
+        'human_additions': lines('human_additions'),
+        'human_deletions': lines('human_deletions'),
+        'ai_additions': lines('ai_additions'),
+        'ai_deletions': lines('ai_deletions'),
         'updated': datetime.now(timezone.utc).strftime('%d %b %H:%M utc').lower(),
     }})
 
