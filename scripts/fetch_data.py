@@ -95,7 +95,13 @@ def github():
     write('github.json', {'total': sum(parts.values()), 'parts': parts, 'start': dates[0], 'days': [per_day[d] for d in dates]})
 
 
-for job in (wakatime, github):
+def build():
+    sha = os.environ.get('GITHUB_SHA')
+    if sha:
+        write('build.json', {'sha': sha, 'at': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')})
+
+
+for job in (wakatime, github, build):
     try:
         job()
     except Exception as e:  # keep the last snapshot rather than break the deploy

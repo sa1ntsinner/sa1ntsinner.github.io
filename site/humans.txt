@@ -1,0 +1,11 @@
+/* TEAM */
+  engineer, designer, intern, coffee: elmir mirzayev
+  from: germany
+  contact: smile0murr [at] gmail.com
+  github: sa1ntsinner
+
+/* SITE */
+  standards: html, css, a bit of js
+  fonts: jetbrains mono
+  tracking: none
+  uptime target: better than the last plc i commissioned

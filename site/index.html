@@ -1,4 +1,13 @@
 <!doctype html>
+<!--
+      .-.     oh. you opened the cabinet door.
+     (o o)
+     | O \    please don't touch the wires, the labels are in a language only i speak.
+      \   \   works on site. not tested on your machine.
+       `~~~'  press s to rescan my face. it still hasn't found my good side.
+
+      bugs, offers, robot gossip: smile0murr@gmail.com
+-->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -132,8 +141,40 @@ ul{list-style:none;margin:0;padding:0}
 
 footer{border-top:1px solid var(--line);padding-block:20px 40px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--dim)}
 footer a:hover{color:var(--fg)}
+footer .build{color:var(--faint)}
+footer .build a{color:var(--dim)}
+.chip .st{color:var(--faint)}
+.now{border-top:1px solid var(--line)}
+.now li{display:grid;grid-template-columns:110px minmax(0,1fr);gap:16px;padding:10px 0;border-bottom:1px solid var(--line)}
+.now .k{color:var(--dim)}
+.now .k::after{content:":"}
+.now span:last-child{color:var(--fg-2)}
+@media (max-width:620px){.now li{grid-template-columns:1fr;gap:2px}}
+.print-only{display:none}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--fg);color:var(--bg);font-size:12px;padding:8px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+
+/* ctrl+p gives a one-page cv instead of a dark screenshot */
+@media print{
+  @page{margin:16mm 18mm}
+  :root{--fg:#000;--fg-2:#222;--dim:#555;--faint:#888;--line:#ccc;--laser:#000}
+  html,body{background:#fff!important;color:#222;font-size:10.5pt;padding:0}
+  .portrait,nav,.caret,.quote,#coding,#activity,.links,.toast,footer{display:none!important}
+  .print-only{display:block}
+  header{padding-block:0 8pt}
+  .hero{display:block;padding-block:12pt}
+  h1{font-size:20pt}
+  section{padding-block:4pt 14pt;break-inside:avoid}
+  .side li a{grid-template-columns:90px minmax(0,1fr)}
+  .side .r{display:none}
+  .side li a::after{content:attr(href);grid-column:2;color:var(--dim);font-size:9pt}
+  .tags span{border-color:#bbb}
+  html,body{font-size:9.5pt;line-height:1.5}
+  .man li,.now li{padding:4pt 0}
+  .side li a{padding:4pt 0;gap:2pt 16px}
+  .cmd{margin-bottom:6pt}
+  .bio{max-width:none}
+}
 </style>
 </head>
 <body>
@@ -148,7 +189,7 @@ footer a:hover{color:var(--fg)}
       <div class="portrait">
         <canvas id="ascii" width="840" height="840" role="img" aria-label="ASCII portrait of Elmir, reconstructed from a lidar scan"></canvas>
         <div class="chips">
-          <span class="chip"><i></i><time id="clock">--:--</time> germany</span>
+          <span class="chip"><i></i><time id="clock">--:--</time> germany<span class="st" id="st"></span></span>
           <span class="chip"><button type="button" id="rescan">rescan</button></span>
         </div>
       </div>
@@ -165,6 +206,7 @@ footer a:hover{color:var(--fg)}
           <a href="https://www.linkedin.com/in/elmir-mirzayev-563a821bb" target="_blank" rel="noopener">linkedin ↗</a>
           <button type="button" id="mail" data-mail="smile0murr@gmail.com">copy email</button>
         </div>
+        <p class="print-only">smile0murr@gmail.com · github.com/sa1ntsinner · sa1ntsinner.github.io</p>
       </div>
     </div>
 
@@ -184,6 +226,17 @@ footer a:hover{color:var(--fg)}
         <li><a href="https://github.com/sa1ntsinner/rung" target="_blank" rel="noopener"><span class="k">rung</span><span class="d">tia portal projects as plain text, so plc code can live in git</span><span class="r">ts · ↗</span></a></li>
         <li><a href="https://github.com/sa1ntsinner/nordlys-tab" target="_blank" rel="noopener"><span class="k">nordlys</span><span class="d">a calm new tab for chrome, no account and no tracking</span><span class="r">js · ↗</span></a></li>
       </ul>
+    </section>
+
+    <section id="now">
+      <p class="cmd">cat <b>now.txt</b></p>
+      <ul class="now">
+        <li><span class="k">work</span><span>outdoor robot navigation on ros 2: route following, localisation, the plc link</span></li>
+        <li><span class="k">side</span><span>rung, so tia portal projects can be diffed and reviewed like normal code</span></li>
+        <li><span class="k">practice</span><span>writing more of it by hand. the numbers below keep me honest</span></li>
+        <li><span class="k">desk</span><span>ubuntu + hyprland at home, windows when tia portal insists</span></li>
+      </ul>
+      <p class="note">updated 13 oct 2026</p>
     </section>
 
     <section id="coding">
@@ -221,7 +274,7 @@ footer a:hover{color:var(--fg)}
     </section>
   </main>
 
-  <footer><span>© 2026 elmir mirzayev</span><a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io" target="_blank" rel="noopener">source ↗</a></footer>
+  <footer><span>© 2026 elmir mirzayev <span class="build" id="build"></span></span><a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io" target="_blank" rel="noopener">source ↗</a></footer>
 </div>
 <div class="toast" id="toast" hidden></div>
 
@@ -233,8 +286,13 @@ footer a:hover{color:var(--fg)}
   const $ = id => document.getElementById(id);
 
   /* clock (germany) */
-  const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' });
-  const tick = () => $('clock').textContent = fmt.format(new Date());
+  const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', weekday: 'short', hourCycle: 'h23' });
+  const tick = () => {
+    const p = Object.fromEntries(fmt.formatToParts(new Date()).map(x => [x.type, x.value]));
+    const h = +p.hour, weekend = p.weekday === 'Sat' || p.weekday === 'Sun';
+    $('clock').textContent = `${p.hour}:${p.minute}`;
+    $('st').textContent = ' · ' + (h < 7 ? 'asleep' : !weekend && h >= 8 && h < 17 ? 'at work' : h >= 23 ? 'should be asleep' : 'off');
+  };
   tick(); setInterval(tick, 15000);
 
   /* email: shown as text on copy, since mailto links are unreliable */
@@ -355,9 +413,6 @@ footer a:hover{color:var(--fg)}
   const RAIL_X = W - 30, RAIL_Y0 = H * .1, RAIL_Y1 = H * .9;
   const unit = { y: H * .45, spin: 0 };
 
-  let pointer = null;
-  cv.addEventListener('pointermove', e => { const b = cv.getBoundingClientRect(); pointer = { x: (e.clientX - b.left) / b.width * W, y: (e.clientY - b.top) / b.height * H }; });
-  cv.addEventListener('pointerleave', () => pointer = null);
 
   /* the scan plan: raster the face from right to left in vertical bands.
      every cell gets a time when a beam first hits it (a red point appears),
@@ -393,13 +448,48 @@ footer a:hover{color:var(--fg)}
   function glyphColor(e, hot) {
     let col = COLOR[e.k];
     if (e.k === 'a') { const s = sheen(e.r, e.c); col = [col[0] + s[0], col[1] + s[1], col[2] + s[2]]; }
-    if (pointer) {
-      const px = cx(e) - pointer.x, py = cy(e) - pointer.y;
-      const q = Math.exp(-(px * px + py * py) / (2 * 28 * 28));
-      if (q > hot) hot = q * .9;
-    }
     if (hot > .01) col = col.map((v, i) => Math.round(v + (LASER[i] - v) * hot));
     return `rgb(${col[0]},${col[1]},${col[2]})`;
+  }
+
+  /* probe: point at the face and the scanner ranges that spot.
+     inside a small lens the glyphs fall back to the raw point cloud underneath. */
+  const LR = 74;
+  const skin = cells.filter(e => e.k === 'a');
+  const FX = skin.reduce((s, e) => s + cx(e), 0) / skin.length, FY = skin.reduce((s, e) => s + cy(e), 0) / skin.length * .92;
+  const FR = Math.max(...skin.map(e => Math.hypot(cx(e) - FX, cy(e) - FY)));
+  const range = e => .58 + .2 * Math.min(1, Math.hypot(cx(e) - FX, cy(e) - FY) / FR) ** 2 + (e.k === 'd' ? .03 : 0);
+  const INT = { a: 214, b: 132, c: 88, d: 61 };
+  let probe = null, sweepY = null;
+  function lens(e) {
+    if (!probe || scanning) return false;
+    const d = Math.hypot(cx(e) - probe.x, cy(e) - probe.y);
+    if (d > LR) return false;
+    // near returns read brighter and bigger, like an intensity-coloured cloud
+    const near = 1 - (range(e) - .58) / .23, fade = 1 - (d / LR) ** 3;
+    const k = INT[e.k] / 214;
+    ctx.fillStyle = `rgba(${Math.round(150 + 105 * near)},${Math.round(70 + 150 * k * near)},${Math.round(60 + 140 * k * near)},${(.35 + .65 * k) * fade})`;
+    const r = .8 + 1.4 * k * near;
+    ctx.fillRect(cx(e) - r, cy(e) - r, r * 2, r * 2);
+    return true;
+  }
+  function drawProbe() {
+    const { x, y } = probe;
+    let best = null, bd = 1e9;
+    for (const e of cells) { const d = (cx(e) - x) ** 2 + (cy(e) - y) ** 2; if (d < bd) { bd = d; best = e; } }
+    const hitE = bd < (cw * 2.5) ** 2 ? best : null;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(230,227,220,.16)'; ctx.setLineDash([2, 5]);
+    ctx.beginPath(); ctx.arc(x, y, LR, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+    const hx = RAIL_X - 9, hy = unit.y;
+    const g = ctx.createLinearGradient(hx, hy, x, y);
+    g.addColorStop(0, 'rgba(255,90,74,.08)'); g.addColorStop(1, `rgba(255,90,74,${hitE ? .85 : .25})`);
+    ctx.strokeStyle = g; ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(x, y); ctx.stroke();
+    ctx.strokeStyle = hitE ? 'rgba(255,90,74,.9)' : 'rgba(230,227,220,.4)';
+    ctx.beginPath(); ctx.moveTo(x - 9, y); ctx.lineTo(x - 3, y); ctx.moveTo(x + 3, y); ctx.lineTo(x + 9, y);
+    ctx.moveTo(x, y - 9); ctx.lineTo(x, y - 3); ctx.moveTo(x, y + 3); ctx.lineTo(x, y + 9); ctx.stroke();
+    ctx.restore();
+    probe.hud = hitE ? `range ${range(hitE).toFixed(3)} m · int ${INT[hitE.k] + ((hitE.r * 7 + hitE.c * 13) % 17) - 8}` : 'no return';
   }
 
   let hud = '';
@@ -417,10 +507,18 @@ footer a:hover{color:var(--fg)}
         ctx.fillStyle = `rgba(${Math.round(255 - 30 * k)},${Math.round(90 + 130 * k)},${Math.round(74 + 140 * k)},${a})`;
         ctx.fillRect(cx(e) - 1.3, cy(e) - 1.3, 2.6, 2.6);
       } else {
-        const hot = Math.max(0, 1 - (t - e.done) / .45);
+        const hot = Math.max(0, 1 - (t - e.done) / .45, e.flash ? 1 - (performance.now() - e.flash) / 600 : 0);
+        if (lens(e)) continue;
         ctx.fillStyle = glyphColor(e, hot * .8);
         ctx.fillText(e.ch, X0 + e.c * cw, e.r * chH);
       }
+    }
+    if (probe && !scanning) drawProbe();
+    if (sweepY !== null) {
+      const g = ctx.createLinearGradient(0, sweepY - 14, 0, sweepY);
+      g.addColorStop(0, 'rgba(255,90,74,0)'); g.addColorStop(1, 'rgba(255,90,74,.22)');
+      ctx.fillStyle = g; ctx.fillRect(0, sweepY - 14, RAIL_X - 14, 14);
+      ctx.fillStyle = 'rgba(255,90,74,.55)'; ctx.fillRect(0, sweepY, RAIL_X - 14, 1);
     }
     // beams: a vertical fan of channels from the scanner head to this frame's returns
     if (beams && beams.length) {
@@ -439,13 +537,13 @@ footer a:hover{color:var(--fg)}
     drawScanner(t, !!(beams && beams.length));
     // readout
     ctx.font = SMALL; ctx.fillStyle = 'rgba(230,227,220,.3)'; ctx.textAlign = 'right';
-    ctx.fillText(hud || `${pts.toLocaleString('en-US')} pts`, W - 4, H - 22);
+    ctx.fillText((probe && !scanning && probe.hud) || hud || `${pts.toLocaleString('en-US')} pts`, W - 4, H - 22);
     ctx.textAlign = 'left';
   }
 
   let anim = 0, scanning = false, t0 = 0, lastNow = 0;
   function scan() {
-    cancelAnimationFrame(anim);
+    cancelAnimationFrame(anim); cancelAnimationFrame(sweepRaf); clearTimeout(idleT); sweepY = null;
     if (reduce || still) { cells.forEach(e => { e.hit = 0; e.done = 0; }); hud = `${cells.length.toLocaleString('en-US')} pts · 16 ch`; draw(99, null); return; }
     plan(); scanning = true; t0 = performance.now(); lastNow = t0;
     const END = Math.max(...cells.map(e => e.done)) + .5;
@@ -471,22 +569,58 @@ footer a:hover{color:var(--fg)}
   }
 
   // at rest the unit idles on its rail, and a few glyphs re-read now and then
-  let idleT = 0;
+  // at rest: every few seconds one thin line sweeps down and re-reads the rows it passes
+  let idleT = 0, sweepRaf = 0;
   function idle() {
-    clearInterval(idleT);
+    clearTimeout(idleT);
     if (reduce || still) return;
-    idleT = setInterval(() => {
-      if (scanning || document.hidden) return;
-      unit.spin += .5;
-      unit.y += ((H * .45 + Math.sin(performance.now() / 2400) * H * .25) - unit.y) * .08;
-      for (let i = 0; i < 14; i++) { const e = cells[Math.floor(rnd() * cells.length)]; e.ch = SET[e.k][Math.floor(rnd() * SET[e.k].length)]; }
-      draw(999, null);
-    }, 120);
+    idleT = setTimeout(sweep, 7000 + rnd() * 5000);
   }
-  let hoverRaf = 0;
-  cv.addEventListener('pointermove', () => { if (scanning || reduce) return; cancelAnimationFrame(hoverRaf); hoverRaf = requestAnimationFrame(() => draw(999, null)); });
+  function sweep() {
+    if (scanning || document.hidden || probe) return idle();
+    const s0 = performance.now(), DUR = 2600;
+    let row = -1;
+    const step = now => {
+      if (scanning) { sweepY = null; return; }
+      const u = Math.min(1, (now - s0) / DUR);
+      sweepY = H * (.04 + .92 * u);
+      unit.y += (Math.max(RAIL_Y0 + 20, Math.min(RAIL_Y1 - 20, sweepY)) - unit.y) * .2;
+      unit.spin += .35;
+      const r = Math.floor(sweepY / chH);
+      for (let rr = row + 1; rr <= r; rr++) for (const e of cells) if (e.r === rr && rnd() < .55) { e.ch = SET[e.k][Math.floor(rnd() * SET[e.k].length)]; e.flash = now; }
+      row = r;
+      draw(999, null);
+      if (u < 1) sweepRaf = requestAnimationFrame(step);
+      else { sweepY = null; setTimeout(() => draw(999, null), 650); idle(); }
+    };
+    sweepRaf = requestAnimationFrame(step);
+  }
+
+  let followRaf = 0;
+  const follow = () => {
+    if (!probe || scanning) return;
+    const ty = Math.max(RAIL_Y0 + 20, Math.min(RAIL_Y1 - 20, probe.y));
+    unit.y += (ty - unit.y) * (reduce ? 1 : .25); unit.spin += .4;
+    draw(999, null);
+    if (Math.abs(ty - unit.y) > .5) followRaf = requestAnimationFrame(follow);
+  };
+  cv.addEventListener('pointermove', e => {
+    const b = cv.getBoundingClientRect();
+    probe = { x: (e.clientX - b.left) / b.width * W, y: (e.clientY - b.top) / b.height * H };
+    if (scanning) return;
+    cancelAnimationFrame(sweepRaf); sweepY = null;
+    cancelAnimationFrame(followRaf); followRaf = requestAnimationFrame(follow);
+  });
+  cv.addEventListener('pointerleave', () => { probe = null; if (!scanning) { draw(999, null); idle(); } });
   cv.addEventListener('click', scan);
   $('rescan').addEventListener('click', scan);
+  addEventListener('keydown', e => { if (e.key === 's' && !e.metaKey && !e.ctrlKey && !e.altKey && !/input|textarea/i.test(e.target.tagName)) scan(); });
+  // coming back after a while: take a fresh scan
+  let hiddenAt = 0;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) hiddenAt = Date.now();
+    else if (hiddenAt && Date.now() - hiddenAt > 60000 && cv.getBoundingClientRect().bottom > 0) scan();
+  });
 
   // complete at rest first, then scan once the font is in
   cells.forEach(e => { e.hit = 0; e.done = 0; });
@@ -519,6 +653,16 @@ footer a:hover{color:var(--fg)}
     $('c-aa').textContent = '+' + n(aa); $('c-ad').textContent = '−' + n(ad);
     $('c-upd').textContent = 'via wakatime' + (s.updated ? ' · ' + s.updated : '');
   }).catch(() => { $('c-upd').textContent = 'stats unavailable right now'; });
+
+  fetch('data/build.json', { cache: 'no-store' }).then(r => r.json()).then(b => {
+    const mins = Math.max(0, Math.round((Date.now() - Date.parse(b.at)) / 60000));
+    const ago = mins < 60 ? `${mins} min ago` : mins < 2880 ? `${Math.round(mins / 60)} h ago` : `${Math.round(mins / 1440)} d ago`;
+    $('build').innerHTML = `· build <a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io/commit/${b.sha}" target="_blank" rel="noopener">${b.sha.slice(0, 7)}</a> · ${ago}`;
+    $('build').title = new Date(b.at).toUTCString();
+  }).catch(() => {});
+
+  console.log('%c  elmir.  %c you opened the cabinet door.\n\n  nothing in here is under warranty.\n  press s to rescan my face. bugs, offers, robot gossip: smile0murr@gmail.com',
+    'background:#ff5a4a;color:#09090b;font:500 12px monospace', 'color:#a9a59c;font:12px monospace');
 
   /* ------------------------------------------------------------------
      github contributions, refreshed by the same deploy
