@@ -1,5 +1,5 @@
 /* TEAM */
-  engineer, designer, intern, coffee: elmir mirzayev
+  engineer, designer, intern, coffee: elmir
   from: germany
   contact: smile0murr [at] gmail.com
   github: sa1ntsinner

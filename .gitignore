@@ -1,1 +1,3 @@
 __pycache__/
+.claude/
+site/data/*.json

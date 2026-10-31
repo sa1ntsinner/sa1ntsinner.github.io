@@ -2,7 +2,7 @@
 <!--
       .-.     hi. you found the source.
      (o o)
-     | O \    nothing clever in here, just one html file and a cron job.
+     | O \    nothing clever in here, just one html file.
       \   \   press s to rescan the portrait.
        `~~~'
       bugs or job offers: smile0murr@gmail.com
@@ -11,221 +11,156 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>elmir mirzayev</title>
-<meta name="description" content="automation and robotics engineer in germany. plc code, robots, and the software around them.">
-<meta name="theme-color" content="#09090b">
+<title>elmir · robotics</title>
+<meta name="description" content="Elmir. Robotics engineer in Germany.">
+<meta name="theme-color" content="#000000">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="elmir mirzayev">
-<meta property="og:description" content="automation and robotics engineer in germany.">
+<meta property="og:title" content="elmir · robotics">
+<meta property="og:description" content="Robotics engineer in Germany.">
 <meta property="og:url" content="https://sa1ntsinner.github.io/">
 <meta property="og:image" content="https://sa1ntsinner.github.io/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"> <!-- taste-skill-ignore: existing ASCII portrait glyphs only -->
+<script>document.documentElement.classList.add('js')</script>
 <style>
 :root{
-  color-scheme: dark;
-  --bg:#09090b;
-  --line:#1d1d21;
-  --fg:#e6e3dc;
-  --fg-2:#a9a59c;
-  --dim:#75726a;
-  --faint:#4a4843;
-  --laser:#ff5a4a;
-  --f:"JetBrains Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+  color-scheme:dark;
+  --bg:#000000;--band:#0c0c0c;--fg:#ecebe9;--muted:#aaa49b;
+  --laser:#ff5a4a;--cell:#151515;
+  --f:"Manrope",system-ui,sans-serif;
+  --radius:20px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --step-small:.8875rem;
+  --step-body:1.0625rem;
+  --step-lead:clamp(1.147rem,.689rem + .57vw,1.275rem);
+  --step-sub:clamp(1.4rem,.84rem + .87vw,1.75rem);
+  --step-head:clamp(1.75rem,1.05rem + 1.33vw,2.394rem);
+  --step-display:clamp(2.75rem,.5rem + 5vw,6rem);
+  --gutter:clamp(24px,4vw,56px);
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{background:var(--bg);scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--fg-2);font:400 14px/1.75 var(--f);-webkit-font-smoothing:antialiased;font-variant-ligatures:none;padding-inline:20px}
-::selection{background:var(--fg);color:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 var(--step-body)/1.5 var(--f);-webkit-font-smoothing:antialiased}
+::selection{background:var(--laser);color:var(--bg)}
 a{color:inherit;text-decoration:none}
-:focus-visible{outline:1px solid var(--fg);outline-offset:3px}
-.wrap{max-width:880px;margin-inline:auto}
+button{font:inherit;color:inherit;cursor:pointer}
+button,a{touch-action:manipulation}
+:focus-visible{outline:2px solid var(--laser);outline-offset:4px;border-radius:4px}
+.wrap{max-width:1680px;margin-inline:auto;padding-inline:var(--gutter)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
 
-header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-block:24px}
-.brand{color:var(--fg);font-weight:500}
-.brand span{color:var(--laser)}
-nav{display:flex;gap:22px;font-size:13px}
-nav a{color:var(--dim);transition:color .15s}
-nav a:hover{color:var(--fg)}
-@media (max-width:520px){nav{gap:16px}nav .opt{display:none}}
+/* header */
+header{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding-block:24px}
+header nav{display:flex;gap:24px}
+header nav a,header nav button{border:0;background:none;padding:0;color:var(--muted);transition:color .18s}
+header nav a:hover,header nav button:hover{color:var(--laser)}
+.brand{font-weight:600;font-size:var(--step-lead);letter-spacing:-.02em}
+.brand i{font-style:normal;color:var(--laser)}
 
-.hero{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:56px;align-items:center;padding-block:40px 88px}
-@media (max-width:840px){.hero{grid-template-columns:1fr;gap:28px;padding-block:12px 64px}.portrait{max-width:400px;margin-inline:auto;width:100%}}
-#ascii{display:block;width:100%;height:auto;aspect-ratio:1/1;cursor:crosshair;-webkit-tap-highlight-color:transparent}
-.rescan{all:unset;display:block;margin:6px auto 0;font-size:12px;color:var(--faint);cursor:pointer;transition:color .15s}
-.rescan:hover,.rescan:focus-visible{color:var(--fg-2)}
+/* one screen: header, then words left and portrait right, then footer */
+.wrap{display:flex;flex-direction:column;min-height:100svh}
+main{flex:1;display:flex}
+.hero{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,4vw,96px)}
+.hero-text{min-width:0}
+h1{margin:0;font-weight:400;font-size:var(--step-display);line-height:.97;letter-spacing:-.031em}
+h1 em{font-style:normal;color:var(--laser)}
+.where{margin:16px 0 0;color:var(--muted);font-size:var(--step-lead)}
+.portrait{position:relative;min-width:0;width:min(100%,calc(100svh - 216px));justify-self:end}
+#ascii{display:block;width:100%;height:auto;aspect-ratio:1;cursor:crosshair;-webkit-tap-highlight-color:transparent}
+.rescan{position:absolute;left:0;bottom:-8px;border:0;background:none;color:var(--muted);font-size:var(--step-sub);padding:8px 12px;transition:color .18s,transform .3s var(--ease)}
+.rescan:hover{color:var(--laser);transform:rotate(-40deg)}
 
-h1{margin:0;font-weight:500;font-size:30px;line-height:1.25;color:var(--fg);letter-spacing:-.015em}
-.caret{display:inline-block;width:8px;height:22px;margin-left:10px;vertical-align:-3px;background:var(--laser);animation:blink 1.1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.role{margin:6px 0 0;color:var(--dim)}
-.role b{color:var(--laser);font-weight:400}
-.bio{margin:22px 0 0;padding-left:14px;border-left:1px solid var(--laser);color:var(--fg-2)}
-.links{display:flex;flex-wrap:wrap;gap:6px 24px;margin-top:28px;font-size:13px}
-.links a,.links button{all:unset;cursor:pointer;color:var(--fg);border-bottom:1px solid var(--faint);transition:border-color .15s,color .15s}
-.links a:hover,.links button:hover,.links a:focus-visible,.links button:focus-visible{border-color:var(--laser);color:var(--laser)}
+/* stack: the robot top to bottom; a red packet runs command down, feedback up */
+#stack{margin-top:clamp(32px,6vh,72px)}
+h2{margin:0 0 8px;font-weight:400;font-size:var(--step-body);color:var(--muted)}
+.stack{position:relative;list-style:none;margin:0;padding:0 0 0 24px}
+.stack::after{content:"";position:absolute;left:0;top:var(--y,0);width:8px;height:8px;border-radius:50%;background:var(--laser);transform:translateY(-50%)}
+.stack li{display:grid;grid-template-columns:minmax(0,9.5rem) minmax(0,1fr);gap:20px;align-items:baseline;padding-block:clamp(5px,1vh,11px)}
+.stack b{font-weight:500;transition:color .25s}
+.stack li.on b,.stack li:hover b{color:var(--laser)}
+/* contributions: one square per day, shade only */
+.grid{display:grid;grid-template-rows:repeat(7,auto);grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:3px;margin-top:clamp(24px,4vh,48px)}
+.grid i{aspect-ratio:1;border-radius:2px;background:var(--cell);opacity:0;transform:scale(.6);transition:opacity .4s,transform .5s var(--ease);transition-delay:calc(var(--d) * 9ms)}
+.grid i[data-l="1"]{background:#4a1d19}.grid i[data-l="2"]{background:#8a2f27}.grid i[data-l="3"]{background:#c94336}.grid i[data-l="4"]{background:var(--laser)}
+.grid.on i{opacity:1;transform:none}
+footer{display:flex;justify-content:space-between;gap:16px;padding-block:24px 28px;font-size:var(--step-small);color:var(--muted)}
+footer a:hover{color:var(--laser)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--fg);color:var(--bg);border-radius:999px;padding:12px 22px;max-width:calc(100% - 32px)}
 
-section{padding-block:0 64px}
-h2{margin:0 0 18px;font-size:13px;font-weight:400;color:var(--dim)}
-h2::before{content:"$ ";color:var(--laser)}
-ul{list-style:none;margin:0;padding:0}
+/* entrance: set type */
+.js [data-line]{display:block;transform:translateY(105%);transition:transform .9s var(--ease);transition-delay:calc(var(--i) * 110ms + 100ms)}
+.line{display:block;overflow:hidden;padding-bottom:.16em;margin-bottom:-.12em}
+.js [data-e]{opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:.45s}
+.js [data-e="action"]{transition-delay:.6s}
+.js [data-e="picture"]{transform:none;transition-delay:.15s;transition-duration:1.2s}
+.ready [data-line],.ready [data-e]{transform:none;opacity:1}
 
-.work,.side{display:grid;gap:10px}
-.work li,.side a{display:grid;grid-template-columns:140px minmax(0,1fr);gap:20px}
-.work .k,.side .k{color:var(--fg)}
-.work .d{color:var(--dim)}
-.side .k{justify-self:start;border-bottom:1px solid transparent;transition:border-color .15s,color .15s}
-.side .d{color:var(--dim);transition:color .15s}
-.side a:hover .k{color:var(--laser);border-color:var(--laser)}
-.side a:hover .d{color:var(--fg-2)}
-@media (max-width:620px){.work li,.side a{grid-template-columns:80px minmax(0,1fr);gap:12px}}
-
-.code{display:grid;gap:28px}
-.totals{display:flex;flex-wrap:wrap;gap:12px 64px}
-.code .k{font-size:12.5px;color:var(--dim)}
-.code .v{font-size:20px;color:var(--fg);font-variant-numeric:tabular-nums;line-height:1.4}
-.langs{display:grid;gap:8px;max-width:520px}
-.lang{display:grid;grid-template-columns:80px minmax(0,1fr) 44px;gap:16px;align-items:center;font-size:13px}
-.lang .bar{height:2px;position:relative}
-.lang .bar i{position:absolute;inset:0 auto 0 0;background:var(--fg-2);transition:width .8s cubic-bezier(.2,.8,.2,1)}
-.lang:nth-child(1) .bar i{background:var(--fg)}
-.lang:nth-child(3) .bar i{background:var(--dim)}
-.lang .p{text-align:right;color:var(--dim);font-variant-numeric:tabular-nums}
-.who-wrote{display:grid;gap:12px;max-width:520px}
-.split{display:flex;height:4px;overflow:hidden}
-.split .h{background:var(--fg)}
-.split .a{background:repeating-linear-gradient(90deg,var(--laser) 0 2px,transparent 2px 4px)}
-.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.cols .n{font-size:14px;font-variant-numeric:tabular-nums;display:flex;gap:12px;margin-top:2px}
-.add{color:var(--fg)}
-.del{color:var(--laser)}
-.code-foot{font-size:12px;color:var(--faint)}
-
-.log-wrap{overflow-x:auto}
-.months{display:grid;grid-auto-flow:column;grid-auto-columns:16px;font-size:11px;color:var(--dim);height:20px;width:max-content;white-space:nowrap}
-.heat{display:grid;grid-auto-flow:column;grid-template-rows:repeat(7,13px);grid-auto-columns:13px;gap:3px;width:max-content}
-.heat i{background:#141417;display:block;transition:outline-color .15s;outline:1px solid transparent;outline-offset:1px}
-.heat i:hover{outline-color:var(--dim)}
-.heat i[data-l="1"]{background:#3b3933}
-.heat i[data-l="2"]{background:#6f6b61}
-.heat i[data-l="3"]{background:#b3ada0}
-.heat i[data-l="4"]{background:#f1ece2}
-.log-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--dim)}
-.legend{display:flex;align-items:center;gap:4px}
-.legend i{width:10px;height:10px;display:inline-block}
-
-footer{border-top:1px solid var(--line);padding-block:20px 40px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--dim)}
-footer a:hover{color:var(--fg)}
-footer .build{color:var(--faint)}
-footer .build a{color:var(--dim)}
-.print-only{display:none}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--fg);color:var(--bg);font-size:12px;padding:8px 14px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
-
-/* ctrl+p gives a one-page cv instead of a dark screenshot */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:8px}
+  .portrait{order:-1;width:100%;max-width:520px;margin-inline:auto}
+  .hero-text{padding-block:16px 32px}
+}
+@media(max-width:600px){
+  .stack li{grid-template-columns:1fr;gap:2px;padding-block:8px}
+  .grid{gap:2px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}html{scroll-behavior:auto}
+  .js [data-line],.js [data-e]{transform:none;opacity:1}
+  .stack::after{display:none}
+}
 @media print{
   @page{margin:16mm 18mm}
-  :root{--fg:#000;--fg-2:#222;--dim:#555;--faint:#888;--line:#ccc;--laser:#000}
-  html,body{background:#fff!important;color:#222;font-size:9.5pt;line-height:1.5;padding:0}
-  .portrait,nav,#coding,#activity,.links,.toast,footer{display:none!important}
-  .print-only{display:block}
-  header{padding-block:0 8pt}
-  .hero{display:block;padding-block:8pt 12pt}
-  h1{font-size:20pt}
-  .bio{max-width:none}
-  section{padding-block:4pt 14pt;break-inside:avoid}
-  h2{margin-bottom:6pt}
-  .work{gap:4pt}
-  .side a{grid-template-columns:150px minmax(0,1fr);padding:2pt 0}
-  .side a::after{content:attr(href);grid-column:2;color:var(--dim);font-size:9pt}
+  :root{--fg:#000;--muted:#555;--laser:#000;--band:#fff}
+  html,body{background:#fff!important;color:#000}
+  .portrait,header nav,.grid,.toast,.rescan{display:none!important}
+  .stack{padding:0}.stack::after{display:none}
+  .wrap,main,.hero{display:block;min-height:0}
+  .js [data-line],.js [data-e]{transform:none;opacity:1}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <a class="brand" href="#top">elmir<span>.</span></a>
-    <nav aria-label="Sections"><a href="#work">work</a><a href="#side">projects</a><a href="https://github.com/sa1ntsinner" target="_blank" rel="noopener">github</a></nav>
+    <a class="brand" href="#top" aria-label="elmir, home">elmir<i>.</i></a>
+    <nav aria-label="Links"><a href="https://github.com/sa1ntsinner" target="_blank" rel="noopener">github</a><a href="https://www.linkedin.com/in/elmir-mirzayev-563a821bb" target="_blank" rel="noopener">linkedin</a><button type="button" data-mail="smile0murr@gmail.com">email</button></nav>
   </header>
 
   <main id="top">
-    <div class="hero">
-      <div class="portrait">
-        <canvas id="ascii" width="840" height="840" role="img" aria-label="ASCII portrait of Elmir, drawn by a simulated lidar scan"></canvas>
-        <button type="button" class="rescan" id="rescan">rescan</button>
+    <div class="hero" data-hero>
+      <div class="hero-text">
+        <h1><span class="line"><span data-line style="--i:0">robotics</span></span><span class="line"><span data-line style="--i:1">engineer<em>.</em></span></span></h1>
+        <p class="where" data-e="lead">germany</p>
+        <section id="stack" aria-labelledby="stack-title">
+          <h2 id="stack-title">stack</h2>
+          <ol class="stack" id="layers">
+            <li><b>navigation</b><span>ros 2 · c++ · python · localisation · route following</span></li>
+            <li><b>control</b><span>siemens s7 · scl · tia portal · state machines · drives · interlocks · safety</span></li>
+            <li><b>automation</b><span>ros 2 ↔ plc · bring-up · io checks · on-site tuning</span></li>
+            <li><b>optimization</b><span>cp-sat · constraint models · scheduling</span></li>
+          </ol>
+          <div class="grid" id="grid" role="img" aria-label="GitHub activity, last year" hidden></div>
+        </section>
       </div>
-
-      <div>
-        <h1>elmir mirzayev<i class="caret" aria-hidden="true"></i></h1>
-        <p class="role">automation &amp; robotics engineer <b>/</b> germany</p>
-        <p class="bio">i write code for plcs and robots.</p>
-        <div class="links">
-          <a href="https://github.com/sa1ntsinner" target="_blank" rel="noopener">github</a>
-          <a href="https://www.linkedin.com/in/elmir-mirzayev-563a821bb" target="_blank" rel="noopener">linkedin</a>
-          <button type="button" id="mail" data-mail="smile0murr@gmail.com">copy email</button>
-        </div>
-        <p class="print-only">smile0murr@gmail.com · github.com/sa1ntsinner · sa1ntsinner.github.io</p>
+      <div class="portrait" data-e="picture">
+        <canvas id="ascii" width="840" height="840" role="img" aria-label="ASCII portrait of Elmir, drawn by a simulated lidar scan"></canvas>
+        <button type="button" class="rescan" id="rescan" aria-label="Rescan portrait">↻</button>
       </div>
     </div>
-
-    <section id="work">
-      <h2>work</h2>
-      <ul class="work">
-        <li><span class="k">plc</span><span class="d">siemens s7, scl, tia portal</span></li>
-        <li><span class="k">robots</span><span class="d">ros, python, c++</span></li>
-        <li><span class="k">machines</span><span class="d">getting new ones running</span></li>
-        <li><span class="k">software</span><span class="d">backends and small tools</span></li>
-      </ul>
-    </section>
-
-    <section id="side">
-      <h2>projects</h2>
-      <ul class="side">
-        <li><a href="https://github.com/sa1ntsinner/rung" target="_blank" rel="noopener"><span class="k">rung</span><span class="d">plc code in git</span></a></li>
-        <li><a href="https://github.com/sa1ntsinner/nordlys-tab" target="_blank" rel="noopener"><span class="k">nordlys</span><span class="d">a calm new tab for chrome</span></a></li>
-      </ul>
-    </section>
-
-    <section id="coding">
-      <h2>this week</h2>
-      <div class="code" id="code" aria-live="polite">
-        <div class="totals">
-          <div><div class="k">today</div><div class="v" id="c-today">-</div></div>
-          <div><div class="k">this week</div><div class="v" id="c-week">-</div></div>
-        </div>
-        <div class="langs" id="c-langs">
-          <div class="lang"><span>python</span><span class="bar"><i style="width:0"></i></span><span class="p">-</span></div>
-          <div class="lang"><span>c++</span><span class="bar"><i style="width:0"></i></span><span class="p">-</span></div>
-          <div class="lang"><span>others</span><span class="bar"><i style="width:0"></i></span><span class="p">-</span></div>
-        </div>
-        <div class="who-wrote">
-          <div class="split" id="c-split"><span class="h" style="width:0"></span><span class="a" style="width:0"></span></div>
-          <div class="cols">
-            <div><div class="k" id="c-h-k">me</div><div class="n"><span class="add" id="c-ha">+0</span><span class="del" id="c-hd">−0</span></div></div>
-            <div><div class="k" id="c-a-k">ai</div><div class="n"><span class="add" id="c-aa">+0</span><span class="del" id="c-ad">−0</span></div></div>
-          </div>
-        </div>
-        <div class="code-foot" id="c-upd">wakatime</div>
-      </div>
-    </section>
-
-    <section id="activity">
-      <h2>github</h2>
-      <div class="log-wrap">
-        <div class="months" id="months"></div>
-        <div class="heat" id="heat" role="img" aria-label="GitHub contributions over the last year"></div>
-      </div>
-      <div class="log-foot"><span id="total">-</span><span class="legend">less <i style="background:#141417"></i><i style="background:#3b3933"></i><i style="background:#6f6b61"></i><i style="background:#b3ada0"></i><i style="background:#f1ece2"></i> more</span></div>
-    </section>
   </main>
 
-  <footer><span>© 2026 elmir mirzayev <span class="build" id="build"></span></span><a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io" target="_blank" rel="noopener">page source</a></footer>
+  <footer>
+    <span>© 2026</span>
+    <a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io" target="_blank" rel="noopener">source</a>
+  </footer>
 </div>
-<div class="toast" id="toast" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (() => {
@@ -237,11 +172,11 @@ footer .build a{color:var(--dim)}
   /* email: shown as text on copy, since mailto links are unreliable */
   let toastT;
   const toast = m => { const t = $('toast'); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2200); };
-  $('mail').addEventListener('click', e => {
+  document.querySelectorAll('[data-mail]').forEach(b => b.addEventListener('click', e => {
     const a = e.currentTarget.dataset.mail;
     const done = () => toast(a + ' copied');
     try { navigator.clipboard.writeText(a).then(done, () => toast(a)); } catch (err) { toast(a); }
-  });
+  }));
 
   /* ------------------------------------------------------------------
      portrait: an ink drawing turned into glyph classes
@@ -343,8 +278,8 @@ footer .build a{color:var(--dim)}
   const PAD_R = 70;                         // room on the right for the scanner and its rail
   const cw = (W - PAD_R) / COLS, chH = H / ROWS;
   const X0 = 0;
-  const FONT = `500 ${Math.round(chH * 1.02)}px "JetBrains Mono", ui-monospace, monospace`;
-  const SMALL = `400 15px "JetBrains Mono", ui-monospace, monospace`;
+  const FONT = `500 ${Math.round(chH * 1.02)}px "JetBrains Mono", ui-monospace, monospace`; // taste-skill-ignore: existing ASCII portrait uses fixed-width glyphs
+  const SMALL = `400 15px "JetBrains Mono", ui-monospace, monospace`; // taste-skill-ignore: sensor readout within the existing canvas asset
   const sheen = (r, c) => { const t = (c / COLS) * .7 + (r / ROWS) * .3; return [Math.round(-14 + 22 * t), Math.round(-4 + 6 * t), Math.round(16 - 26 * t)]; };
   const cx = e => X0 + (e.c + .5) * cw, cy = e => (e.r + .5) * chH;
 
@@ -575,72 +510,39 @@ footer .build a{color:var(--dim)}
   draw(999, null);
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { draw(999, null); freeze ? scan() : setTimeout(scan, 300); });
 
-  /* ------------------------------------------------------------------
-     wakatime, refreshed by the hourly deploy
-     ------------------------------------------------------------------ */
-  fetch('data/coding.json', { cache: 'no-store' }).then(r => r.json()).then(j => {
-    const s = j && j.status; if (!s) { $('c-upd').textContent = 'no data yet, check back in a week'; return; }
-    const n = v => Number(v || 0).toLocaleString('en-US');
-        $('c-today').textContent = s.total_today || '0 secs';
-    $('c-week').textContent = s.week_total || '0 secs';
-    const rows = $('c-langs').children;
-    (s.week_languages || []).slice(0, 3).forEach((l, i) => {
-      if (!rows[i]) return;
-      rows[i].children[0].textContent = String(l.name).toLowerCase();
-      rows[i].querySelector('.bar i').style.width = Math.max(0, Math.min(100, l.percent)) + '%';
-      rows[i].querySelector('.p').textContent = Math.round(l.percent) + '%';
-    });
-    const ha = +s.human_additions || 0, hd = +s.human_deletions || 0, aa = +s.ai_additions || 0, ad = +s.ai_deletions || 0;
-    const all = ha + hd + aa + ad, ai = all ? Math.round((aa + ad) / all * 100) : 0, hu = all ? 100 - ai : 0;
-    const sp = $('c-split').children; sp[0].style.width = hu + '%'; sp[1].style.width = ai + '%';
-    $('c-split').title = all ? `${hu}% me, ${ai}% ai` : 'no line changes yet';
-    $('c-h-k').textContent = all ? `me, ${hu}%` : 'me';
-    $('c-a-k').textContent = all ? `ai, ${ai}%` : 'ai';
-    $('c-ha').textContent = '+' + n(ha); $('c-hd').textContent = '−' + n(hd);
-    $('c-aa').textContent = '+' + n(aa); $('c-ad').textContent = '−' + n(ad);
-    $('c-upd').textContent = 'wakatime' + (s.updated ? ', ' + s.updated : '');
-  }).catch(() => { $('c-upd').textContent = 'could not load stats'; });
-
-  fetch('data/build.json', { cache: 'no-store' }).then(r => r.json()).then(b => {
-    const mins = Math.max(0, Math.round((Date.now() - Date.parse(b.at)) / 60000));
-    const ago = mins < 60 ? `${mins} min ago` : mins < 2880 ? `${Math.round(mins / 60)} h ago` : `${Math.round(mins / 1440)} d ago`;
-    $('build').innerHTML = `· <a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io/commit/${b.sha}" target="_blank" rel="noopener">updated ${ago}</a>`;
-    $('build').title = new Date(b.at).toUTCString();
-  }).catch(() => {});
+  /* entrance: lines rise once the page is in */
+  requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('ready')));
 
   console.log('%c  elmir.  %c hi. press s on the page to rescan the portrait.\n\n  bugs or job offers: smile0murr@gmail.com',
-    'background:#ff5a4a;color:#09090b;font:500 12px monospace', 'color:#a9a59c;font:12px monospace');
+    'background:#ff5a4a;color:#000000;font:500 12px monospace', 'color:#a9a59c;font:12px monospace');
 
-  /* ------------------------------------------------------------------
-     github contributions, refreshed by the same deploy
-     ------------------------------------------------------------------ */
-  fetch('data/github.json', { cache: 'no-store' }).then(r => r.json()).then(g => {
-    const days = g.days || [], [y, m, d] = g.start.split('-').map(Number);
-    const DAY0 = Date.UTC(y, m - 1, d);
-    const startDow = new Date(DAY0).getUTCDay();
-    const heat = $('heat'), months = $('months');
-    const lvl = v => v === 0 ? 0 : v < 4 ? 1 : v < 12 ? 2 : v < 30 ? 3 : 4;
-    const dfmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
-    const mfmt = new Intl.DateTimeFormat('en-GB', { month: 'short', timeZone: 'UTC' });
-    for (let i = 0; i < startDow; i++) heat.appendChild(Object.assign(document.createElement('i'), { style: 'visibility:hidden' }));
-    let total = 0;
-    days.forEach((v, i) => {
-      total += v;
-      const el = document.createElement('i'); el.dataset.l = lvl(v);
-      el.title = `${v} on ${dfmt.format(new Date(DAY0 + i * 864e5))}`;
-      heat.appendChild(el);
+  /* signal packet: command runs down the stack, feedback back up; lights the layer it passes */
+  const stack = $('layers'), layers = [...stack.children];
+  if (!reduce && !still) {
+    const t0 = performance.now(), PERIOD = 7000;
+    const tick = now => {
+      const u = ((now - t0) % PERIOD) / PERIOD, s = u < .5 ? u * 2 : 2 - u * 2;   // 0 to 1 and back
+      const k = s * s * (3 - 2 * s), y = k * stack.offsetHeight;
+      stack.style.setProperty('--y', y + 'px');
+      layers.forEach(li => li.classList.toggle('on', y >= li.offsetTop && y < li.offsetTop + li.offsetHeight));
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  /* github activity: shade per day, no counts; squares pop in on a diagonal */
+  fetch('data/activity.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw 0; return r.json(); }).then(j => {
+    const grid = $('grid');
+    [...j.levels].forEach((l, i) => {
+      const el = document.createElement('i');
+      el.dataset.l = l; el.style.setProperty('--d', Math.floor(i / 7) + i % 7);
+      grid.append(el);
     });
-    const weeks = Math.ceil((days.length + startDow) / 7);
-    let lastM = -1;
-    for (let w = 0; w < weeks; w++) {
-      const dt = new Date(DAY0 + (w * 7 - startDow) * 864e5), mo = dt.getUTCMonth();
-      const lab = document.createElement('span');
-      if (mo !== lastM && w < weeks - 2) { if (lastM !== -1 || dt.getUTCDate() <= 7) lab.textContent = mfmt.format(dt).toLowerCase().slice(0, 3); lastM = mo; }
-      months.appendChild(lab);
-    }
-    $('total').textContent = `${(g.total ?? total).toLocaleString('en-US')} contributions this year`;
-    if (g.parts) $('total').title = Object.entries(g.parts).map(([k, v]) => `${k} ${v.toLocaleString('en-US')}`).join(' · ');
-  }).catch(() => { $('total').textContent = 'could not load activity'; });
+    grid.hidden = false;
+    const show = () => grid.classList.add('on');
+    if (reduce || still || !('IntersectionObserver' in window)) show();
+    else new IntersectionObserver((es, o) => { if (es.some(e => e.isIntersecting)) { show(); o.disconnect(); } }, { threshold: .3 }).observe(grid);
+  }).catch(() => {});
 })();
 </script>
 </body>
