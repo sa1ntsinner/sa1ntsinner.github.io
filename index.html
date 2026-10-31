@@ -1,0 +1,549 @@
+<!doctype html>
+<!--
+      .-.     hi. you found the source.
+     (o o)
+     | O \    nothing clever in here, just one html file.
+      \   \   press s to rescan the portrait.
+       `~~~'
+      bugs or job offers: smile0murr@gmail.com
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>elmir · robotics</title>
+<meta name="description" content="Elmir. Robotics engineer in Germany.">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="elmir · robotics">
+<meta property="og:description" content="Robotics engineer in Germany.">
+<meta property="og:url" content="https://sa1ntsinner.github.io/">
+<meta property="og:image" content="https://sa1ntsinner.github.io/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap"> <!-- taste-skill-ignore: existing ASCII portrait glyphs only -->
+<script>document.documentElement.classList.add('js')</script>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#000000;--band:#0c0c0c;--fg:#ecebe9;--muted:#aaa49b;
+  --laser:#ff5a4a;--cell:#151515;
+  --f:"Manrope",system-ui,sans-serif;
+  --radius:20px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --step-small:.8875rem;
+  --step-body:1.0625rem;
+  --step-lead:clamp(1.147rem,.689rem + .57vw,1.275rem);
+  --step-sub:clamp(1.4rem,.84rem + .87vw,1.75rem);
+  --step-head:clamp(1.75rem,1.05rem + 1.33vw,2.394rem);
+  --step-display:clamp(2.75rem,.5rem + 5vw,6rem);
+  --gutter:clamp(24px,4vw,56px);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--bg);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 var(--step-body)/1.5 var(--f);-webkit-font-smoothing:antialiased}
+::selection{background:var(--laser);color:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+button,a{touch-action:manipulation}
+:focus-visible{outline:2px solid var(--laser);outline-offset:4px;border-radius:4px}
+.wrap{max-width:1680px;margin-inline:auto;padding-inline:var(--gutter)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+/* header */
+header{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding-block:24px}
+header nav{display:flex;gap:24px}
+header nav a,header nav button{border:0;background:none;padding:0;color:var(--muted);transition:color .18s}
+header nav a:hover,header nav button:hover{color:var(--laser)}
+.brand{font-weight:600;font-size:var(--step-lead);letter-spacing:-.02em}
+.brand i{font-style:normal;color:var(--laser)}
+
+/* one screen: header, then words left and portrait right, then footer */
+.wrap{display:flex;flex-direction:column;min-height:100svh}
+main{flex:1;display:flex}
+.hero{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,4vw,96px)}
+.hero-text{min-width:0}
+h1{margin:0;font-weight:400;font-size:var(--step-display);line-height:.97;letter-spacing:-.031em}
+h1 em{font-style:normal;color:var(--laser)}
+.where{margin:16px 0 0;color:var(--muted);font-size:var(--step-lead)}
+.portrait{position:relative;min-width:0;width:min(100%,calc(100svh - 216px));justify-self:end}
+#ascii{display:block;width:100%;height:auto;aspect-ratio:1;cursor:crosshair;-webkit-tap-highlight-color:transparent}
+.rescan{position:absolute;left:0;bottom:-8px;border:0;background:none;color:var(--muted);font-size:var(--step-sub);padding:8px 12px;transition:color .18s,transform .3s var(--ease)}
+.rescan:hover{color:var(--laser);transform:rotate(-40deg)}
+
+/* stack: the robot top to bottom; a red packet runs command down, feedback up */
+#stack{margin-top:clamp(32px,6vh,72px)}
+h2{margin:0 0 8px;font-weight:400;font-size:var(--step-body);color:var(--muted)}
+.stack{position:relative;list-style:none;margin:0;padding:0 0 0 24px}
+.stack::after{content:"";position:absolute;left:0;top:var(--y,0);width:8px;height:8px;border-radius:50%;background:var(--laser);transform:translateY(-50%)}
+.stack li{display:grid;grid-template-columns:minmax(0,9.5rem) minmax(0,1fr);gap:20px;align-items:baseline;padding-block:clamp(5px,1vh,11px)}
+.stack b{font-weight:500;transition:color .25s}
+.stack li.on b,.stack li:hover b{color:var(--laser)}
+/* contributions: one square per day, shade only */
+.grid{display:grid;grid-template-rows:repeat(7,auto);grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:3px;margin-top:clamp(24px,4vh,48px)}
+.grid i{aspect-ratio:1;border-radius:2px;background:var(--cell);opacity:0;transform:scale(.6);transition:opacity .4s,transform .5s var(--ease);transition-delay:calc(var(--d) * 9ms)}
+.grid i[data-l="1"]{background:#4a1d19}.grid i[data-l="2"]{background:#8a2f27}.grid i[data-l="3"]{background:#c94336}.grid i[data-l="4"]{background:var(--laser)}
+.grid.on i{opacity:1;transform:none}
+footer{display:flex;justify-content:space-between;gap:16px;padding-block:24px 28px;font-size:var(--step-small);color:var(--muted)}
+footer a:hover{color:var(--laser)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--fg);color:var(--bg);border-radius:999px;padding:12px 22px;max-width:calc(100% - 32px)}
+
+/* entrance: set type */
+.js [data-line]{display:block;transform:translateY(105%);transition:transform .9s var(--ease);transition-delay:calc(var(--i) * 110ms + 100ms)}
+.line{display:block;overflow:hidden;padding-bottom:.16em;margin-bottom:-.12em}
+.js [data-e]{opacity:0;transform:translateY(12px);transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:.45s}
+.js [data-e="action"]{transition-delay:.6s}
+.js [data-e="picture"]{transform:none;transition-delay:.15s;transition-duration:1.2s}
+.ready [data-line],.ready [data-e]{transform:none;opacity:1}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:8px}
+  .portrait{order:-1;width:100%;max-width:520px;margin-inline:auto}
+  .hero-text{padding-block:16px 32px}
+}
+@media(max-width:600px){
+  .stack li{grid-template-columns:1fr;gap:2px;padding-block:8px}
+  .grid{gap:2px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}html{scroll-behavior:auto}
+  .js [data-line],.js [data-e]{transform:none;opacity:1}
+  .stack::after{display:none}
+}
+@media print{
+  @page{margin:16mm 18mm}
+  :root{--fg:#000;--muted:#555;--laser:#000;--band:#fff}
+  html,body{background:#fff!important;color:#000}
+  .portrait,header nav,.grid,.toast,.rescan{display:none!important}
+  .stack{padding:0}.stack::after{display:none}
+  .wrap,main,.hero{display:block;min-height:0}
+  .js [data-line],.js [data-e]{transform:none;opacity:1}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#top" aria-label="elmir, home">elmir<i>.</i></a>
+    <nav aria-label="Links"><a href="https://github.com/sa1ntsinner" target="_blank" rel="noopener">github</a><a href="https://www.linkedin.com/in/elmir-mirzayev-563a821bb" target="_blank" rel="noopener">linkedin</a><button type="button" data-mail="smile0murr@gmail.com">email</button></nav>
+  </header>
+
+  <main id="top">
+    <div class="hero" data-hero>
+      <div class="hero-text">
+        <h1><span class="line"><span data-line style="--i:0">robotics</span></span><span class="line"><span data-line style="--i:1">engineer<em>.</em></span></span></h1>
+        <p class="where" data-e="lead">germany</p>
+        <section id="stack" aria-labelledby="stack-title">
+          <h2 id="stack-title">stack</h2>
+          <ol class="stack" id="layers">
+            <li><b>navigation</b><span>ros 2 · c++ · python · localisation · route following</span></li>
+            <li><b>control</b><span>siemens s7 · scl · tia portal · state machines · drives · interlocks · safety</span></li>
+            <li><b>automation</b><span>ros 2 ↔ plc · bring-up · io checks · on-site tuning</span></li>
+            <li><b>optimization</b><span>cp-sat · constraint models · scheduling</span></li>
+          </ol>
+          <div class="grid" id="grid" role="img" aria-label="GitHub activity, last year" hidden></div>
+        </section>
+      </div>
+      <div class="portrait" data-e="picture">
+        <canvas id="ascii" width="840" height="840" role="img" aria-label="ASCII portrait of Elmir, drawn by a simulated lidar scan"></canvas>
+        <button type="button" class="rescan" id="rescan" aria-label="Rescan portrait">↻</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>© 2026</span>
+    <a href="https://github.com/sa1ntsinner/sa1ntsinner.github.io" target="_blank" rel="noopener">source</a>
+  </footer>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const still = /still/.test(location.search);
+  const freeze = +((/[?&]t=([\d.]+)/.exec(location.search) || [])[1] || 0);   // ?t=2 renders one scan frame, for screenshots
+  const $ = id => document.getElementById(id);
+
+  /* email: shown as text on copy, since mailto links are unreliable */
+  let toastT;
+  const toast = m => { const t = $('toast'); t.textContent = m; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2200); };
+  document.querySelectorAll('[data-mail]').forEach(b => b.addEventListener('click', e => {
+    const a = e.currentTarget.dataset.mail;
+    const done = () => toast(a + ' copied');
+    try { navigator.clipboard.writeText(a).then(done, () => toast(a)); } catch (err) { toast(a); }
+  }));
+
+  /* ------------------------------------------------------------------
+     portrait: an ink drawing turned into glyph classes
+     a = skin, b = thin ink, c = heavier ink, d = solid ink (hair, shirt)
+     ------------------------------------------------------------------ */
+  const GRID = `                                                                                                                                
+                                                                                                                                
+                                                                                                                                
+                                                            d      ddddddddd                                                    
+                                                         dddddd  ddddccccddd        d                                           
+                                                   d    dddddddddddddddddddddddddd dddd                                         
+                                                 dddd dddddddddddddddddddddddddccbcddddd                                        
+                                                  dddddddddddddddddddddddddddddddddddddd                                        
+                                             dd  ddddddddddddddddddddddddddddddddddddddd d                                      
+                                           dd dddddddddddddddddddddddddddddddddddddddddddd                                      
+                                          ddddddddddddddddddddddddddddddddddddddddddddddd   ddd                                 
+                                         dddddddddddddddddddddddddddddddddddddddddddddddddddddd                                 
+                                      dddddddddddddddddddddddddddddddddddddddddddddddddddccdddc                                 
+                                       ddddddddddddddddddddddddddddddddddddddcccddddddddddddddd                                 
+                                     ddddddddddddddddddddccccddddddddcddddddddddddddddddddddd                                   
+                                    ddddddddddddddddcbbbbbbaaaabbbaaaaabcdddcdddddddddddddddddd                                 
+                                    ddddddddddddddbaaaaaaaaaaaaaaaaaaaaaaaabbbbaacdddddddddddd                                  
+                                   dddddddddddddcbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacddddddddddd                                 
+                                   ddddddddddddddbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcdddddd                                   
+                                   dddddddddddddcbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaddddd                                    
+                                   ddddddddddddddaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdddd                                    
+                                  ddddddddddddddcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdddd                                    
+                                   ddddddddddddcaaaaabcccccccccbbbaaaaaaaaaaaaaaaaaaaaabdddd                                    
+                                   dddddddddddcaaabcdddccddddddddddccbaaaaabbbbbbbaaaaabddd                                     
+                                   ddddddddddcaaabcbbaaaaaaaabbbcccccaaaabdddddddddddcbaddd                                     
+                                    dddddddddbaaaaaaaaaaaaaaaaaaaaaaaaaaabcccccccccccddcdd                                      
+                                    dddddddddaaaaaaaabccdddddddcaaaaaaaabcaaaaaaaaaaaabcdd                                      
+                                    dddddddddaaaaaaaccbcddddaabcbaaaaaaadaabcdddccbaaaabdd                                      
+                                  ddcbabcdddcaaaaaaaaaaacccbaaaaaaaaaaaadabcddddcbcdcaacd                                       
+                                  dcabbaabddbaaaaaaaaaaaaaaaaaaaaaaaaaaacbaabcccbaaacaacd                                       
+                                 ddabbccbaabaaaaaaaaaaaaaaaaaaaaaaaaaaaabdaaaaaaaaaaaaadd                                       
+                                 dcaaaabdbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadcaaaaaaaaaaaadcdd                                     
+                                 ddaaaacdcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabdbaaaaaaaaaaadbcd                                     
+                                 ddbaaaddaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdaaaaaaaaaabdcdd                                     
+                                  ddaaacdcaaaaaaaaaaaaaaaaaaaaaaaabccbaaacdcaaaaaaaaaabdcdd                                     
+                                   dcaaaabbaaaaaaaaaaaaaaaaaaaaaaabbaaabddbaaaaaaaaaaaccbdd                                     
+                                    dcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabdbcd                                      
+                                    ddcbbbccbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdbd                                       
+                                      dddddddaaaaaaaaaaaaaabbbabbbbbbaaaaaaaaaaaaaaaadbcd                                       
+                                          dddbaaaaaaaaaaaaabcccccccccccdccbbbaaaaaaacbadd                                       
+                                           ddcaaaaaaaaaaaaaaaaaaaaaaaaaaabbbaaaaaaabdcdd                                        
+                                           dddbaaaaaaaaaaaaaaaaaabbbbbbaaaaaaaaaaaacdd                                          
+                                           ddddbaaaaaaaaaaaaaaaaaaabbbbaaaaaaaaaaacd                                            
+                                           ddbcdcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabd                                             
+                                           ddbabcdbaaaaaaaaaaaaaaaaaaaaaaaaaaaaacd                                              
+                                           ddbaaacddcbaaaaaaaaaaaaaaaaaaaaaaaabdd                                               
+                                           ddbaaaabdddcbaaabaaaaaaaaaaaaaaaabcdd                                                
+                                           ddcaaaaaacddddccbbabaaaaaaabababcdbcd                                                
+                                            dcaaaaaaabdddddddcccbaababbccdcbaacd                                                
+                                            dcaaaaaaaaacddddddddddddddddcbaaaacd                                                
+                                            dcaaaaaaaaaaacdddddddddddcbaaaaaaacdd                                               
+                                            dcaaaaaaaaaaaaacddddddcbaaaaaaaaaabdd                                               
+                                            dcaaaaaaaaaaaaaaaabbaaaaaaaaaaaaaabdd                                               
+                                           ddcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacddddd                                           
+                                        dddcdbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcdddddd                                        
+                                    ddddddbadaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabdddddddd                                    
+                                 ddddddddcaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacdddddddddddd                                
+                              ddddddddddddaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaacddddddddddddddddd                            
+                          ddddddddddddddddcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabddddddddddddddddddddddd                        
+                       ddddddddddddddddddddcaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcddddddddddddddddddddddddddd                     
+                    dddddddddddddddddddddddddbaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabcddddddddddddddddddddddddddddddddd                 
+                dddddddddddddddddddddddddddddddcbaaaaaaaaaaaaaaaaaaaaaaaabcddddddddddddddddddddddddddddddddddddddd              
+             dddddddddddddddddddddddddddddddddddddcbbaaaaaaaaaaaaaabbccdddddddddddddddddddddddddddddddddddddddddddddd           
+           dddddddddddddddddddddddddddddddddddddddddddddccccccccdddddddddddddddddddddddddddddddddddddddddddddddddddddddd        
+         dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd       
+       dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd       
+       ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd        
+         ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd          
+          dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd            
+             dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd               
+               ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                  
+                  ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                     
+                     ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                        
+                         ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                            
+                              dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd                                  
+                                    dddddddddddddddddddddddddddddddddddddddddddddddddddd                                        
+                                             dddddddddddddddddddddddddddddddddd                                                 `.split('\n');
+  const ROWS = GRID.length, COLS = GRID[0].length;
+  const SET = { a: '@#%&$8B0QWMNg', b: '+=*o?ci7tjl1', c: ':;~-<>!^"\'', d: '/\\|(){}[]?_-<>~;:il!' };
+  const COLOR = { a: [236, 232, 223], b: [92, 89, 83], c: [62, 60, 56], d: [104, 100, 93] };
+  const LASER = [255, 90, 74];
+  let seed = 11;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+  const cells = [];
+  for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+    const k = GRID[r][c];
+    if (k !== ' ') cells.push({ r, c, k, ch: SET[k][Math.floor(rnd() * SET[k].length)], hit: Infinity, done: Infinity });
+  }
+  const minC = Math.min(...cells.map(e => e.c)), maxC = Math.max(...cells.map(e => e.c));
+
+  const cv = $('ascii'), ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  const PAD_R = 70;                         // room on the right for the scanner and its rail
+  const cw = (W - PAD_R) / COLS, chH = H / ROWS;
+  const X0 = 0;
+  const FONT = `500 ${Math.round(chH * 1.02)}px "JetBrains Mono", ui-monospace, monospace`; // taste-skill-ignore: existing ASCII portrait uses fixed-width glyphs
+  const SMALL = `400 15px "JetBrains Mono", ui-monospace, monospace`; // taste-skill-ignore: sensor readout within the existing canvas asset
+  const sheen = (r, c) => { const t = (c / COLS) * .7 + (r / ROWS) * .3; return [Math.round(-14 + 22 * t), Math.round(-4 + 6 * t), Math.round(16 - 26 * t)]; };
+  const cx = e => X0 + (e.c + .5) * cw, cy = e => (e.r + .5) * chH;
+
+  // scanner: a spinning unit that rides a vertical rail on the right
+  const RAIL_X = W - 30, RAIL_Y0 = H * .1, RAIL_Y1 = H * .9;
+  const unit = { y: H * .45, spin: 0 };
+
+
+  /* the scan plan: raster the face from right to left in vertical bands.
+     every cell gets a time when a beam first hits it (a red point appears),
+     then it settles into its glyph once the reconstruction pass reaches it. */
+  const SCAN = 4.2, SETTLE = .55;
+  function plan() {
+    for (const e of cells) {
+      const u = 1 - (e.c - minC) / (maxC - minC + 1);           // 0 at the right edge
+      e.hit = u * SCAN * .86 + rnd() * SCAN * .14;
+      e.done = e.hit + SETTLE + rnd() * .35;
+    }
+  }
+
+  function drawScanner(t, active) {
+    ctx.save();
+    // rail
+    ctx.strokeStyle = 'rgba(230,227,220,.12)'; ctx.lineWidth = 1; ctx.setLineDash([2, 6]);
+    ctx.beginPath(); ctx.moveTo(RAIL_X, RAIL_Y0); ctx.lineTo(RAIL_X, RAIL_Y1); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(230,227,220,.25)';
+    for (let y = RAIL_Y0; y <= RAIL_Y1 + 1; y += (RAIL_Y1 - RAIL_Y0) / 8) ctx.fillRect(RAIL_X + 6, y, 5, 1);
+    // body
+    const y = unit.y;
+    ctx.fillStyle = '#0e0e11'; ctx.strokeStyle = active ? 'rgba(255,90,74,.9)' : 'rgba(230,227,220,.35)';
+    ctx.beginPath(); ctx.roundRect ? ctx.roundRect(RAIL_X - 13, y - 20, 26, 40, 5) : ctx.rect(RAIL_X - 13, y - 20, 26, 40); ctx.fill(); ctx.stroke();
+    // spinning head
+    ctx.beginPath(); ctx.arc(RAIL_X, y, 8, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(RAIL_X, y, 8, unit.spin, unit.spin + 1.1); ctx.lineWidth = 3; ctx.stroke(); ctx.lineWidth = 1;
+    ctx.fillStyle = active ? 'rgb(255,90,74)' : 'rgba(230,227,220,.5)';
+    ctx.beginPath(); ctx.arc(RAIL_X - 9, y, 2.2, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+
+  function glyphColor(e, hot) {
+    let col = COLOR[e.k];
+    if (e.k === 'a') { const s = sheen(e.r, e.c); col = [col[0] + s[0], col[1] + s[1], col[2] + s[2]]; }
+    if (hot > .01) col = col.map((v, i) => Math.round(v + (LASER[i] - v) * hot));
+    return `rgb(${col[0]},${col[1]},${col[2]})`;
+  }
+
+  /* probe: point at the face and the scanner ranges that spot.
+     inside a small lens the glyphs fall back to the raw point cloud underneath. */
+  const LR = 74;
+  const skin = cells.filter(e => e.k === 'a');
+  const FX = skin.reduce((s, e) => s + cx(e), 0) / skin.length, FY = skin.reduce((s, e) => s + cy(e), 0) / skin.length * .92;
+  const FR = Math.max(...skin.map(e => Math.hypot(cx(e) - FX, cy(e) - FY)));
+  const range = e => .58 + .2 * Math.min(1, Math.hypot(cx(e) - FX, cy(e) - FY) / FR) ** 2 + (e.k === 'd' ? .03 : 0);
+  const INT = { a: 214, b: 132, c: 88, d: 61 };
+  let probe = null, sweepY = null;
+  function lens(e) {
+    if (!probe || scanning) return false;
+    const d = Math.hypot(cx(e) - probe.x, cy(e) - probe.y);
+    if (d > LR) return false;
+    // near returns read brighter and bigger, like an intensity-coloured cloud
+    const near = 1 - (range(e) - .58) / .23, fade = 1 - (d / LR) ** 3;
+    const k = INT[e.k] / 214;
+    ctx.fillStyle = `rgba(${Math.round(150 + 105 * near)},${Math.round(70 + 150 * k * near)},${Math.round(60 + 140 * k * near)},${(.35 + .65 * k) * fade})`;
+    const r = .8 + 1.4 * k * near;
+    ctx.fillRect(cx(e) - r, cy(e) - r, r * 2, r * 2);
+    return true;
+  }
+  function drawProbe() {
+    const { x, y } = probe;
+    let best = null, bd = 1e9;
+    for (const e of cells) { const d = (cx(e) - x) ** 2 + (cy(e) - y) ** 2; if (d < bd) { bd = d; best = e; } }
+    const hitE = bd < (cw * 2.5) ** 2 ? best : null;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(230,227,220,.16)'; ctx.setLineDash([2, 5]);
+    ctx.beginPath(); ctx.arc(x, y, LR, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+    const hx = RAIL_X - 9, hy = unit.y;
+    const g = ctx.createLinearGradient(hx, hy, x, y);
+    g.addColorStop(0, 'rgba(255,90,74,.08)'); g.addColorStop(1, `rgba(255,90,74,${hitE ? .85 : .25})`);
+    ctx.strokeStyle = g; ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(x, y); ctx.stroke();
+    ctx.strokeStyle = hitE ? 'rgba(255,90,74,.9)' : 'rgba(230,227,220,.4)';
+    ctx.beginPath(); ctx.moveTo(x - 9, y); ctx.lineTo(x - 3, y); ctx.moveTo(x + 3, y); ctx.lineTo(x + 9, y);
+    ctx.moveTo(x, y - 9); ctx.lineTo(x, y - 3); ctx.moveTo(x, y + 3); ctx.lineTo(x, y + 9); ctx.stroke();
+    ctx.restore();
+    probe.hud = hitE ? `range ${range(hitE).toFixed(3)} m · int ${INT[hitE.k] + ((hitE.r * 7 + hitE.c * 13) % 17) - 8}` : 'no return';
+  }
+
+  let hud = '';
+  function draw(t, beams) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.font = FONT; ctx.textBaseline = 'top';
+    let pts = 0;
+    for (const e of cells) {
+      if (t < e.hit) continue;
+      pts++;
+      if (t < e.done) {
+        // point cloud stage: a laser return, cooling from red to bone
+        const k = Math.min(1, (t - e.hit) / SETTLE);
+        const a = 1 - k * .55;
+        ctx.fillStyle = `rgba(${Math.round(255 - 30 * k)},${Math.round(90 + 130 * k)},${Math.round(74 + 140 * k)},${a})`;
+        ctx.fillRect(cx(e) - 1.3, cy(e) - 1.3, 2.6, 2.6);
+      } else {
+        const hot = Math.max(0, 1 - (t - e.done) / .45, e.flash ? 1 - (performance.now() - e.flash) / 600 : 0);
+        if (lens(e)) continue;
+        ctx.fillStyle = glyphColor(e, hot * .8);
+        ctx.fillText(e.ch, X0 + e.c * cw, e.r * chH);
+      }
+    }
+    if (probe && !scanning) drawProbe();
+    if (sweepY !== null) {
+      const g = ctx.createLinearGradient(0, sweepY - 14, 0, sweepY);
+      g.addColorStop(0, 'rgba(255,90,74,0)'); g.addColorStop(1, 'rgba(255,90,74,.22)');
+      ctx.fillStyle = g; ctx.fillRect(0, sweepY - 14, RAIL_X - 14, 14);
+      ctx.fillStyle = 'rgba(255,90,74,.55)'; ctx.fillRect(0, sweepY, RAIL_X - 14, 1);
+    }
+    // beams: a vertical fan of channels from the scanner head to this frame's returns
+    if (beams && beams.length) {
+      const hx = RAIL_X - 9, hy = unit.y;
+      for (const b of beams) {
+        const g = ctx.createLinearGradient(hx, hy, b.x, b.y);
+        g.addColorStop(0, 'rgba(255,90,74,.05)'); g.addColorStop(1, `rgba(255,90,74,${b.a})`);
+        ctx.strokeStyle = g; ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.moveTo(hx, hy); ctx.lineTo(b.x, b.y); ctx.stroke();
+        ctx.fillStyle = `rgba(255,140,120,${Math.min(1, b.a + .3)})`;
+        ctx.beginPath(); ctx.arc(b.x, b.y, 2.4, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = 'rgba(255,90,74,.18)';
+        ctx.beginPath(); ctx.arc(b.x, b.y, 6, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    drawScanner(t, !!(beams && beams.length));
+    // readout
+    ctx.font = SMALL; ctx.fillStyle = 'rgba(230,227,220,.3)'; ctx.textAlign = 'right';
+    ctx.fillText((probe && !scanning && probe.hud) || hud || `${pts.toLocaleString('en-US')} pts`, W - 4, H - 22);
+    ctx.textAlign = 'left';
+  }
+
+  let anim = 0, scanning = false, t0 = 0, lastNow = 0;
+  function scan() {
+    cancelAnimationFrame(anim); cancelAnimationFrame(sweepRaf); clearTimeout(idleT); sweepY = null;
+    if (reduce || still) { cells.forEach(e => { e.hit = 0; e.done = 0; }); hud = `${cells.length.toLocaleString('en-US')} pts · 16 ch`; draw(99, null); return; }
+    plan(); scanning = true; t0 = performance.now(); lastNow = t0;
+    const END = Math.max(...cells.map(e => e.done)) + .5;
+    const step = now => {
+      const t = freeze ? freeze : (now - t0) / 1000, dt = Math.min(.05, (now - lastNow) / 1000); lastNow = now;
+      unit.spin += freeze ? 2 : dt * 22;
+      // this frame's returns: cells whose first hit falls in the last few frames
+      const fresh = cells.filter(e => e.hit <= t && e.hit > t - .07);
+      const beams = [];
+      for (let i = 0; i < Math.min(16, fresh.length); i++) {
+        const e = fresh[Math.floor(rnd() * fresh.length)];
+        beams.push({ x: cx(e), y: cy(e), a: .3 + rnd() * .5 });
+      }
+      if (beams.length) { const my = beams.reduce((s, b) => s + b.y, 0) / beams.length; unit.y += (Math.max(RAIL_Y0 + 20, Math.min(RAIL_Y1 - 20, my)) - unit.y) * .18; }
+      const shown = cells.reduce((s, e) => s + (e.hit <= t), 0);
+      hud = t < SCAN ? `${shown.toLocaleString('en-US')} pts · 16 ch · 10 hz` : (t < END ? 'reconstructing' : `${cells.length.toLocaleString('en-US')} pts · 16 ch`);
+      draw(t, t < SCAN + .1 ? beams : null);
+      if (freeze) { unit.y = Math.max(RAIL_Y0 + 20, Math.min(RAIL_Y1 - 20, beams.length ? beams.reduce((q, x) => q + x.y, 0) / beams.length : unit.y)); draw(t, beams); return; }
+      if (t < END) anim = requestAnimationFrame(step);
+      else { scanning = false; idle(); }
+    };
+    anim = requestAnimationFrame(step);
+  }
+
+  // at rest: every few seconds one thin line sweeps down and re-reads the rows it passes
+  let idleT = 0, sweepRaf = 0;
+  function idle() {
+    clearTimeout(idleT);
+    if (reduce || still) return;
+    idleT = setTimeout(sweep, 7000 + rnd() * 5000);
+  }
+  function sweep() {
+    if (scanning || document.hidden || probe) return idle();
+    const s0 = performance.now(), DUR = 2600;
+    let row = -1;
+    const step = now => {
+      if (scanning) { sweepY = null; return; }
+      const u = Math.min(1, (now - s0) / DUR);
+      sweepY = H * (.04 + .92 * u);
+      unit.y += (Math.max(RAIL_Y0 + 20, Math.min(RAIL_Y1 - 20, sweepY)) - unit.y) * .2;
+      unit.spin += .35;
+      const r = Math.floor(sweepY / chH);
+      for (let rr = row + 1; rr <= r; rr++) for (const e of cells) if (e.r === rr && rnd() < .55) { e.ch = SET[e.k][Math.floor(rnd() * SET[e.k].length)]; e.flash = now; }
+      row = r;
+      draw(999, null);
+      if (u < 1) sweepRaf = requestAnimationFrame(step);
+      else { sweepY = null; setTimeout(() => draw(999, null), 650); idle(); }
+    };
+    sweepRaf = requestAnimationFrame(step);
+  }
+
+  let followRaf = 0;
+  const follow = () => {
+    if (!probe || scanning) return;
+    const ty = Math.max(RAIL_Y0 + 20, Math.min(RAIL_Y1 - 20, probe.y));
+    unit.y += (ty - unit.y) * (reduce ? 1 : .25); unit.spin += .4;
+    draw(999, null);
+    if (Math.abs(ty - unit.y) > .5) followRaf = requestAnimationFrame(follow);
+  };
+  // mouse: the probe follows the cursor. touch has no hover, so a tap pins it for a few seconds.
+  // a click never rescans: that is what the rescan chip and the s key are for.
+  let unpin = 0;
+  const aim = e => {
+    const b = cv.getBoundingClientRect();
+    probe = { x: (e.clientX - b.left) / b.width * W, y: (e.clientY - b.top) / b.height * H };
+    if (scanning) return;
+    cancelAnimationFrame(sweepRaf); sweepY = null;
+    cancelAnimationFrame(followRaf); followRaf = requestAnimationFrame(follow);
+  };
+  const release = () => { probe = null; if (!scanning) { draw(999, null); idle(); } };
+  cv.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') aim(e); });
+  cv.addEventListener('pointerdown', e => {
+    aim(e);
+    clearTimeout(unpin);
+    if (e.pointerType !== 'mouse') unpin = setTimeout(release, 3500);
+  });
+  cv.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') release(); });
+  $('rescan').addEventListener('click', scan);
+  addEventListener('keydown', e => { if (e.key === 's' && !e.metaKey && !e.ctrlKey && !e.altKey && !/input|textarea/i.test(e.target.tagName)) scan(); });
+  // coming back after a while: take a fresh scan
+  let hiddenAt = 0;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) hiddenAt = Date.now();
+    else if (hiddenAt && Date.now() - hiddenAt > 60000 && cv.getBoundingClientRect().bottom > 0) scan();
+  });
+
+  // complete at rest first, then scan once the font is in
+  cells.forEach(e => { e.hit = 0; e.done = 0; });
+  hud = `${cells.length.toLocaleString('en-US')} pts · 16 ch`;
+  draw(999, null);
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { draw(999, null); freeze ? scan() : setTimeout(scan, 300); });
+
+  /* entrance: lines rise once the page is in */
+  requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('ready')));
+
+  console.log('%c  elmir.  %c hi. press s on the page to rescan the portrait.\n\n  bugs or job offers: smile0murr@gmail.com',
+    'background:#ff5a4a;color:#000000;font:500 12px monospace', 'color:#a9a59c;font:12px monospace');
+
+  /* signal packet: command runs down the stack, feedback back up; lights the layer it passes */
+  const stack = $('layers'), layers = [...stack.children];
+  if (!reduce && !still) {
+    const t0 = performance.now(), PERIOD = 7000;
+    const tick = now => {
+      const u = ((now - t0) % PERIOD) / PERIOD, s = u < .5 ? u * 2 : 2 - u * 2;   // 0 to 1 and back
+      const k = s * s * (3 - 2 * s), y = k * stack.offsetHeight;
+      stack.style.setProperty('--y', y + 'px');
+      layers.forEach(li => li.classList.toggle('on', y >= li.offsetTop && y < li.offsetTop + li.offsetHeight));
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  /* github activity: shade per day, no counts; squares pop in on a diagonal */
+  fetch('data/activity.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw 0; return r.json(); }).then(j => {
+    const grid = $('grid');
+    [...j.levels].forEach((l, i) => {
+      const el = document.createElement('i');
+      el.dataset.l = l; el.style.setProperty('--d', Math.floor(i / 7) + i % 7);
+      grid.append(el);
+    });
+    grid.hidden = false;
+    const show = () => grid.classList.add('on');
+    if (reduce || still || !('IntersectionObserver' in window)) show();
+    else new IntersectionObserver((es, o) => { if (es.some(e => e.isIntersecting)) { show(); o.disconnect(); } }, { threshold: .3 }).observe(grid);
+  }).catch(() => {});
+})();
+</script>
+</body>
+</html>
