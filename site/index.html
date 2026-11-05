@@ -531,9 +531,9 @@ footer a:hover{color:var(--laser)}
   }
 
   /* github activity: shade per day, no counts; squares pop in on a diagonal */
-  fetch('data/activity.json', { cache: 'no-store' }).then(r => { if (!r.ok) throw 0; return r.json(); }).then(j => {
+  fetch('https://github-contributions-api.jogruber.de/v4/sa1ntsinner?y=last').then(r => { if (!r.ok) throw 0; return r.json(); }).then(j => {
     const grid = $('grid');
-    [...j.levels].forEach((l, i) => {
+    j.contributions.forEach(({ level: l }, i) => {
       const el = document.createElement('i');
       el.dataset.l = l; el.style.setProperty('--d', Math.floor(i / 7) + i % 7);
       grid.append(el);
